@@ -23706,7 +23706,7 @@ dl li {
   width: 100%;
   z-index: 99;
   -webkit-justify-content: space-between;
-  justify-content: space-between;
+  justify-content: center;
   -webkit-transition-duration: 0.2s;
   -moz-transition-duration: 0.2s;
   -o-transition-duration: 0.2s;
