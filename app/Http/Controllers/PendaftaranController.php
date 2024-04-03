@@ -8,6 +8,8 @@ use App\Models\Pendaftaran;
 use App\Models\Prodi;
 use App\Models\TahunAjaran;
 use App\Models\User;
+use CURLFile;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -102,16 +104,38 @@ class PendaftaranController extends Controller
             return response()->json(['errors' => $validator->errors()->all()]);
         }
         
-        if ($request->hasfile('file')) {
-            // $filename = round(microtime(true) * 1000).'-'.$request->no_ijazah. '.' . $request->file->extension();
-            $filename = 'ijazah.' . $request->file->extension();
-            $request->file->move(storage_path('app/ijazah/'), $filename);
+        if(isset($_FILES['file'])){
+            $fileTmpName  = $_FILES['file']['tmp_name'];
+            $filetype  = $_FILES['file']['type'];
+            $filename  = $_FILES['file']['name'];
+            $file = new CURLFile($fileTmpName,$filetype,$filename);
+            $postDokData['file'] = $file;
         }
+        if(isset($_FILES['file_pembayaran'])){
+            $fileTmpName  = $_FILES['file_pembayaran']['tmp_name'];
+            $filetype  = $_FILES['file_pembayaran']['type'];
+            $filename  = $_FILES['file_pembayaran']['name'];
+            $file = new CURLFile($fileTmpName,$filetype,$filename);
+            $postDokData['file_pembayaran'] = $file;
+        }
+
+        $headers = array(
+            "Accept: application/json",
+            "Auth: wngoturldjjop08bbfjeq7xl",
+        );
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, 'http://siakad.test/api/pendaftaran-store-file');
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $postDokData);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); 
         
-        if ($request->hasfile('file_pembayaran')) {
-            // $fileBuktiBayar = round(microtime(true) * 1000).'.' . $request->file_pembayaran->extension();
-            $fileBuktiBayar = 'buktibayar.' . $request->file_pembayaran->extension();
-            $request->file_pembayaran->move(storage_path('app/pembayaran_pendaftaran/'), $fileBuktiBayar);
+        $response = curl_exec($ch);
+        $response = json_decode($response);
+        curl_close($ch);
+        if($response->meta->message != "Berhasil menyimpan data"){
+            return response()->json(['errors' => ['Gagal upload data']]);
         }
 
         try {
@@ -165,7 +189,7 @@ class PendaftaranController extends Controller
                 'pendidikan_ibu' => $request->pendidikan_ibu,
                 'pekerjaan_ibu' => strtoupper($request->pekerjaan_ibu),
                 'prodi_id' => $request->prodi_id,
-                'ijazah' => $filename,
+                'ijazah' => $response->data->ijazah,
                 'no_ijazah' => $request->no_ijazah,
             ]);
 
@@ -174,7 +198,7 @@ class PendaftaranController extends Controller
                 'tahun_ajaran_id' => $request->tahun_ajaran_id,
                 'prodi_id' => $request->prodi_id,
                 'nominal_pendaftaran' => $request->nominal_pendaftaran,
-                'bukti_bayar_pendaftaran' => $fileBuktiBayar,
+                'bukti_bayar_pendaftaran' => $response->data->pembayaran,
             ]);
 
             return response()->json([ 'success' => 'Berhasil menyimpan data.']);
