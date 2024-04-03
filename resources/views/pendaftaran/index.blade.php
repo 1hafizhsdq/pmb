@@ -16,16 +16,32 @@
 				<nav class="navbar top-navbar col-lg-12 col-12 p-0">
 					<div class="container-fluid">
 					<div class="navbar-menu-wrapper d-flex align-items-center justify-content-between">
-						<ul class="navbar-nav navbar-nav-left">	
+						<ul class="navbar-nav navbar-nav-left">
+							<li>
+								<div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+									<a class="navbar-brand brand-logo" href="index.html">
+										<img style="height: 70px; width: 70px;" src="{{ asset('img') }}/logo.png" alt="logo"/>
+									</a>
+									<a class="navbar-brand brand-logo-mini" href="index.html">
+										<img style="height: 50px; width: 50px;" src="{{ asset('img') }}/logo.png" alt="logo"/>
+									</a>
+									{{-- <h2 style="margin-top: 10px; margin-left: 10px;">
+										<b style="color: black;">
+											SEKOLAH TINGGI AGAMA ISLAM NAHDLATUL ULAMA PACITAN
+										</b>
+									</h2> --}}
+								</div>
+								
+							</li>	
 						</ul>
-						<div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+						{{-- <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
 							<a class="navbar-brand brand-logo" href="index.html">
 								<img src="{{ asset('img') }}/logo.png" alt="logo"/>
 							</a>
 							<a class="navbar-brand brand-logo-mini" href="index.html">
 								<img style="height: 50px; width: 50px;" src="{{ asset('img') }}/logo.png" alt="logo"/>
 							</a>
-						</div>
+						</div> --}}
 						<ul class="navbar-nav navbar-nav-right">
 							<li class="nav-item nav-profile dropdown">
 								<a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" id="profileDropdown">
