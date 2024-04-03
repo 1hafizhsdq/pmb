@@ -83,13 +83,13 @@
             <nav class="bottom-navbar">
                 <div class="container">
                     <ul class="nav page-navigation">
-                        <li class="nav-item active">
+                        <li class="nav-item {{ ($title == 'Pendaftaran Mahasiswa Baru') ? 'active' : '' }}">
                             <a class="nav-link" href="/">
                                 <i class="mdi mdi-file-document-box menu-icon"></i>
                                 <span class="menu-title" style="color: #000000;">Pendaftaran</span>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item {{ ($title != 'Pendaftaran Mahasiswa Baru') ? 'active' : '' }}">
                             <a href="/pengumuman" class="nav-link">
                                 <i class="mdi mdi-volume-high menu-icon"></i>
                                 <span class="menu-title" style="color: #000000;">Pengumuman</span>
