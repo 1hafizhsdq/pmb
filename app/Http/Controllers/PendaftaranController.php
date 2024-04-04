@@ -13,12 +13,20 @@ use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
 class PendaftaranController extends Controller
 {
     public function index()
     {
+        if(Auth::user()->role_id != 5){
+            Auth::logout();
+            Session::flash('message', 'Akses ditolak.');
+
+            return view('auth.login');
+        }
+
         $data['title'] = 'Pendaftaran Mahasiswa Baru';
         $data['tahun_ajarans'] = TahunAjaran::where('is_active',1)->first();
         $data['user'] = User::with('pendaftaran.tahunajaran','biodatamahasiswa')
