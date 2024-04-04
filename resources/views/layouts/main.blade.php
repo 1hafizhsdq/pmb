@@ -70,7 +70,16 @@
                         </ul> --}}
                         <ul class="navbar-nav navbar-nav-right">
                             <li class="nav-item dropdown  d-lg-flex d-none">
-                                <button type="button" id="logout" class="btn btn-inverse-danger btn-sm">Logout </button>
+                                {{-- <button type="button" id="logout" class="btn btn-inverse-danger btn-sm">Logout </button> --}}
+                                <a class="btn btn-inverse-danger btn-sm" href="{{ route('logout') }}"
+                                    onclick="event.preventDefault();
+                                                    document.getElementById('logout-form').submit();">
+                                    {{ __('Logout') }}
+                                </a>
+
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    @csrf
+                                </form>
                             </li>
                         </ul>
                         <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
@@ -150,6 +159,7 @@
     <script>
         $(document).ready(function () {
             $('#logout').click(function () {
+                console.log('tes');
                 $.ajaxSetup({
                 	headers: {
                 		'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
