@@ -110,7 +110,7 @@
     </script> --}}
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"
         integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
-    {{-- <script src="{{ asset('template') }}/js/template.js"></script> --}}
+    <script src="{{ asset('template') }}/js/template.js"></script>
     <script src="{{ asset('template') }}/vendors/chart.js/Chart.min.js"></script>
     <script src="{{ asset('template') }}/vendors/progressbar.js/progressbar.min.js"></script>
     <script
@@ -119,7 +119,7 @@
     <script src="{{ asset('template') }}/vendors/justgage/raphael-2.1.4.min.js"></script>
     <script src="{{ asset('template') }}/vendors/justgage/justgage.js"></script>
     <script src="{{ asset('template') }}/js/jquery.cookie.js" type="text/javascript"></script>
-    {{-- <script src="{{ asset('template') }}/js/dashboard.js"></script> --}}
+    <script src="{{ asset('template') }}/js/dashboard.js"></script>
     <script
         src="{{ asset('template') }}/vendors/filepond-plugin-file-validate-size/filepond-plugin-file-validate-size.min.js">
     </script>

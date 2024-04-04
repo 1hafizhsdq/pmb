@@ -42,7 +42,7 @@
                                                         <div class="row">
                                                             <div class="col-md-3">
                                                                 <img id="logo-bca"
-                                                                    src="{{ asset('config') }}/{{ $config->img_rekenning }}"
+                                                                    src="{{ asset('img') }}/bri.png"
                                                                     alt="Logo">
                                                             </div>
                                                             <div class="col-md-8">
