@@ -62,7 +62,7 @@
                   @endif
                 </div>
                 <div class="my-3">
-                  <button type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">LOGIN</button>
+                  <button style="color: #fff;background-color: #076b37;border-color: #000000;" type="submit" class="btn btn-block btn-success btn-lg font-weight-medium auth-form-btn">LOGIN</button>
                 </div>
                 <div class="text-center mt-4 font-weight-light">
                   Belum memiliki akun? <a href="{{ route('register') }}" class="text-primary">Daftar disini</a>
