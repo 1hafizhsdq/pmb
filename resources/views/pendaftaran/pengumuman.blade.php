@@ -13,7 +13,7 @@
                     <div class="col-sm-6 mb-4 mb-xl-0">
                         <div class="d-lg-flex align-items-center">
                             <div>
-                                <h3 class="text-dark font-weight-bold mb-2">Hi, {{ Auth::user()->nama }}!</h3>
+                                <h3 class="text-dark font-weight-bold mb-2">Hi, {{ Auth::user()->name }}!</h3>
                             </div>
                         </div>
                     </div>
@@ -24,14 +24,14 @@
                             <div class="col-sm-12 grid-margin d-flex stretch-card">
                                 <div class="card text-center py-5">
                                     @if($pengumuman == null)
-                                        <h5 class="mt-3">
+                                        <h2 class="mt-3">
                                             Anda belum melakukan pendaftaran, segera lakukan Pendaftaran Mahasiswa Baru!
-                                        </h5>
+                                        </h2>
                                     @else
                                         @if($pengumuman->status == 1)
-                                            <h5 class="mt-3">
+                                            <h2 class="mt-3">
                                                 SELAMAT ANDA DINYATAKAN DITERIMA
-                                            </h5>
+                                            </h2>
                                             <p>{{ $pengumuman->prodi->nama_prodi }}</p>
                                             @if ($pengumuman->bukti_bayar_herregistrasi == null)
                                                 <form id="form">
@@ -85,17 +85,17 @@
                                                 <span>Pembayaran Herregistrasi telah dilakukan, dan dalam proses verifikasi admin</span>
                                             @endif
                                         @elseif($pengumuman->status == 3)
-                                            <h5 class="mt-3">
+                                            <h2 class="mt-3">
                                                 MOHON MAAF ANDA DINYATAKAN <b>TIDAK DITERIMA</b>
-                                            </h5>
+                                            </h2>
                                             <p>
                                                 {{ $pengumuman->keterangan }}
                                             </p>
                                         @else
-                                            <h5 class="mt-3">
+                                            <h2 class="mt-3">
                                                 Proses Pendaftaran anda sedang dalam proses, penerimaan akan diumumkan
                                                 setelah proses selesai!
-                                            </h5>
+                                            </h2>
                                         @endif
                                     @endif
                                 </div>

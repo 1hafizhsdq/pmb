@@ -420,43 +420,10 @@
 @push('script')
     <script>
         $(document).ready(function () {
-            // $('#save').click(function(){
-            //     var form = $('#form')[0],
-            //     data = new FormData(form);
-                
-            //     $('.spinner').css('display','block');
-            //     $(this).css('display','none');
-
-            //     $.ajaxSetup({
-            //         headers: {
-            //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            //         }
-            //     });
-            //     $.ajax({
-            //         url: "/pendaftaran",
-            //         type: 'POST',
-            //         processData: false,
-            //         contentType: false,
-            //         data: data,
-            //         success: function(result) {
-            //             if (result.success) {
-            //                 successMsg(result.success)
-            //                 $('.spinner').css('display','none');
-            //                 $('#save').css('display','block');
-            //                 $('#form').find('input').val('');
-            //                 location.reload();
-            //             } else {
-            //                 $('.spinner').css('display','none');
-            //                 $('#save').css('display','block');
-            //                 msg = ''
-            //                 $.each(result.errors, function(key, value) {
-            //                     msg += value;
-            //                 });
-            //                 errorMsg(msg)
-            //             }
-            //         }
-            //     });
-            // });
+            $('#save').click(function(){
+                $('.spinner').css('display','block');
+                $('#save').css('display','none');
+            });
         }).on('change','#provinsi_id',function(){
             var id = $(this).val();
 

@@ -109,7 +109,7 @@
         }
       }
     });
-    if ($.cookie('kapella-free-banner')!="true") {
+    if ($.cookie('kapella-free-banner')=="true") {
       document.querySelector('#proBanner').classList.add('d-flex');
     }
     else {
