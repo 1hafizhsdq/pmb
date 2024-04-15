@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="{{ asset('template') }}/css/style.css">
     <link rel="shortcut icon" href="{{ asset('template') }}/images/favicon.png" />
     <link rel="stylesheet" href="{{ asset('template') }}/vendors/filepond/filepond.css">
+    <link rel="stylesheet" href="{{ asset('select2') }}/dist/css/select2.css">
     <link rel="stylesheet"
         href="{{ asset('template') }}/vendors/filepond-plugin-image-preview/filepond-plugin-image-preview.css">
 </head>
@@ -113,10 +114,8 @@
         @yield('content')
         <!-- page-body-wrapper ends -->
     </div>
-    {{-- <script src="{{ asset('template') }}/vendors/base/vendor.bundle.base.js">
-    </script> --}}
-    {{-- <script src="{{ asset('template') }}/vendors/jquery/jquery.min.js">
-    </script> --}}
+    <script src="{{ asset('template') }}/vendors/base/vendor.bundle.base.js"></script>
+    <script src="{{ asset('template') }}/vendors/jquery/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"
         integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
     <script src="{{ asset('template') }}/js/template.js"></script>
@@ -156,7 +155,9 @@
     <script src="{{ asset('template') }}/vendors/toast.js"></script>
 	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{{ asset('js') }}/sweetalert.js"></script>
+    <script src="{{ asset('select2') }}/dist/js/select2.js"></script>
     <script>
+        $('.select2').select2();
         $(document).ready(function () {
             $('#logout').click(function () {
                 console.log('tes');

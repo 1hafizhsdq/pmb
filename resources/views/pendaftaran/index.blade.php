@@ -32,54 +32,43 @@
                                     @else
                                     <div class="card-body">
                                             <h2 style="color: black;margin-bottom: 35px;">{{ $title }}</h2>
-                                            <form id="form">
+                                            @if ($errors->any())
+                                                <div class="alert alert-danger">
+                                                    <ul>
+                                                        @foreach ($errors->all() as $error)
+                                                            <li>{{ $error }}</li>
+                                                        @endforeach
+                                                    </ul>
+                                                </div>
+                                            @endif
+                                            <form id="form" method="POST" action="/pendaftaran" enctype="multipart/form-data">
                                                 @csrf
                                                 {{-- Start section Biodata Diri --}}
                                                 <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
-                                                <input type="hidden" name="tahun_ajaran_id" value="{{ $periodes->id }}">
+                                                <input type="hidden" name="periode_id" value="{{ $periodes->id }}">
                                                 <h4 class="card-title">Biodata Diri</h4>
                                                 <div class="row">
                                                     <div class="col-md-4">
                                                         <label for="nama">Nama Lengkap</label>
                                                     </div>
-                                                    @error('nama')
-                                                        <span class="text-danger">
-                                                            *<strong>{{ $message }}</strong>
-                                                        </span>
-                                                    @enderror
                                                     <div class="col-md-8 form-group">
                                                         <input type="text" id="nama" class="form-control @error('nama') is-invalid @enderror" name="nama"
-                                                            value="{{ Auth::user()->nama }}">
+                                                            value="{{ $user->name }}">
                                                     </div>
                                                     <div class="col-md-4">
                                                         <label for="tempat_lahir">Tempat & Tanggal Lahir</label>
                                                     </div>
-                                                    @error('tempat_lahir')
-                                                        <span class="text-danger">
-                                                            *<strong>{{ $message }}</strong>
-                                                        </span>
-                                                    @enderror
                                                     <div class="col-md-4 form-group">
                                                         <input type="text" id="tempat_lahir" class="form-control @error('tempat_lahir') is-invalid @enderror" name="tempat_lahir">
                                                     </div>
-                                                    @error('tgl_lahir')
-                                                        <span class="text-danger">
-                                                            *<strong>{{ $message }}</strong>
-                                                        </span>
-                                                    @enderror
                                                     <div class="col-md-4 form-group">
                                                         <input type="date" id="tgl_lahir" onkeypress="return isNumber(event)" class="form-control @error('tgl_lahir') is-invalid @enderror" name="tgl_lahir">
                                                     </div>
                                                     <div class="col-md-4">
                                                         <label for="jenis_kelamin">Jenis Kelamin</label>
                                                     </div>
-                                                    @error('jenis_kelamin')
-                                                        <span class="text-danger">
-                                                            *<strong>{{ $message }}</strong>
-                                                        </span>
-                                                    @enderror
                                                     <div class="col-md-8 form-group">
-                                                        <select class="form-select @error('jenis_kelamin') is-invalid @enderror" id="jenis_kelamin" name="jenis_kelamin">
+                                                        <select class="form-select select2 @error('jenis_kelamin') is-invalid @enderror" id="jenis_kelamin" name="jenis_kelamin">
                                                             <option value="">-- Pilih Jenis Kelamin --</option>
                                                             <option value="Laki-laki">Laki-laki</option>
                                                             <option value="Perempuan">Perempuan</option>
@@ -88,61 +77,73 @@
                                                     <div class="col-md-4">
                                                         <label for="alamat">Alamat</label>
                                                     </div>
-                                                    @error('alamat')
-                                                        <span class="text-danger">
-                                                            *<strong>{{ $message }}</strong>
-                                                        </span>
-                                                    @enderror
                                                     <div class="col-md-8 form-group">
                                                         <input type="text" id="alamat" class="form-control @error('alamat') is-invalid @enderror" name="alamat">
                                                     </div>
                                                     <div class="col-md-4">
                                                         <label for="provinsi_id">Provinsi</label>
                                                     </div>
-                                                    @error('provinsi_id')
-                                                        <span class="text-danger">
-                                                            *<strong>{{ $message }}</strong>
-                                                        </span>
-                                                    @enderror
                                                     <div class="col-md-8 form-group">
-                                                        <select class="form-select js-example-basic-single @error('provinsi_id') is-invalid @enderror" id="provinsi_id" name="provinsi_id">
+                                                        <select class="form-select select2 @error('provinsi_id') is-invalid @enderror" id="provinsi_id" name="provinsi_id">
+                                                            <option value="">-- Pilih Provinsi --</option>
                                                             @foreach ($provinsis as $pr)
                                                                 <option value="{{ $pr->id }}">{{ $pr->nama_provinsi }}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
                                                     <div class="col-md-4">
+                                                        <label for="kota_id">Kabupaten/Kota</label>
+                                                    </div>
+                                                    <div class="col-md-8 form-group">
+                                                        <select class="form-select select2 @error('kota_id') is-invalid @enderror" id="kota_id" name="kota_id">
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label for="kecamatan_id">Kecamatan</label>
+                                                    </div>
+                                                    <div class="col-md-8 form-group">
+                                                        <select class="form-select select2 @error('kecamatan_id') is-invalid @enderror" id="kecamatan_id" name="kecamatan_id">
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label for="kelurahan_id">Kelurahan</label>
+                                                    </div>
+                                                    <div class="col-md-8 form-group">
+                                                        <select class="form-select select2 @error('kelurahan_id') is-invalid @enderror" id="kelurahan_id" name="kelurahan_id">
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label for="kode_pos">Kodepos/Dusun/RT/RW</label>
+                                                    </div>
+                                                    <div class="col-md-2 form-group">
+                                                        <input type="text" id="kode_pos" class="form-control @error('kode_pos') is-invalid @enderror" name="kode_pos" placeholder="Kodepos">
+                                                    </div>
+                                                    <div class="col-md-2 form-group">
+                                                        <input type="text" id="dusun" class="form-control @error('dusun') is-invalid @enderror" name="dusun" placeholder="Dusun">
+                                                    </div>
+                                                    <div class="col-md-2 form-group">
+                                                        <input type="text" id="rt" class="form-control @error('rt') is-invalid @enderror" name="rt" placeholder="RT">
+                                                    </div>
+                                                    <div class="col-md-2 form-group">
+                                                        <input type="text" id="rw" class="form-control @error('rw') is-invalid @enderror" name="rw" placeholder="RW">
+                                                    </div>
+                                                    <div class="col-md-4">
                                                         <label for="telp">Nomor Telepon</label>
                                                     </div>
-                                                    @error('telp')
-                                                        <span class="text-danger">
-                                                            *<strong>{{ $message }}</strong>
-                                                        </span>
-                                                    @enderror
                                                     <div class="col-md-8 form-group">
                                                         <input type="text" id="telp" onkeypress="return isNumber(event)" class="form-control @error('telp') is-invalid @enderror" name="telp"
-                                                            value="{{ Auth::user()->telp }}">
+                                                            value="{{ $user->telp }}">
                                                     </div>
                                                     <div class="col-md-4">
                                                         <label for="email">Email</label>
                                                     </div>
-                                                    @error('email')
-                                                        <span class="text-danger">
-                                                            *<strong>{{ $message }}</strong>
-                                                        </span>
-                                                    @enderror
                                                     <div class="col-md-8 form-group">
                                                         <input type="text" id="email" class="form-control @error('email') is-invalid @enderror" name="email"
-                                                            value="{{ Auth::user()->email }}">
+                                                            value="{{ $user->email }}">
                                                     </div>
                                                     <div class="col-md-4">
                                                         <label for="nik">Nomor Induk Kependudukan (NIK)</label>
                                                     </div>
-                                                    @error('nik')
-                                                        <span class="text-danger">
-                                                            *<strong>{{ $message }}</strong>
-                                                        </span>
-                                                    @enderror
                                                     <div class="col-md-8 form-group">
                                                         <input type="text" id="nik" class="form-control @error('nik') is-invalid @enderror" name="nik"
                                                             onkeypress="return isNumber(event)">
@@ -150,11 +151,6 @@
                                                     <div class="col-md-4">
                                                         <label for="nisn">Nomor Induk Siswa Nasional (NISN)</label>
                                                     </div>
-                                                    @error('nisn')
-                                                        <span class="text-danger">
-                                                            *<strong>{{ $message }}</strong>
-                                                        </span>
-                                                    @enderror
                                                     <div class="col-md-8 form-group">
                                                         <input type="text" id="nisn" class="form-control @error('nisn') is-invalid @enderror" name="nisn"
                                                             onkeypress="return isNumber(event)">
@@ -162,13 +158,8 @@
                                                     <div class="col-md-4">
                                                         <label for="jenis_sekolah">Jenis Sekolah</label>
                                                     </div>
-                                                    @error('jenis_sekolah')
-                                                        <span class="text-danger">
-                                                            *<strong>{{ $message }}</strong>
-                                                        </span>
-                                                    @enderror
                                                     <div class="col-md-8 form-group">
-                                                        <select class="form-select @error('jenis_sekolah') is-invalid @enderror" id="jenis_sekolah" name="jenis_sekolah">
+                                                        <select class="form-select select2 @error('jenis_sekolah') is-invalid @enderror" id="jenis_sekolah" name="jenis_sekolah">
                                                             <option value="">-- Pilih Jenis Sekolah --</option>
                                                             <option value="SMA">SMA</option>
                                                             <option value="SMK">SMK</option>
@@ -178,22 +169,12 @@
                                                     <div class="col-md-4">
                                                         <label for="nama_sekolah">Nama Sekolah</label>
                                                     </div>
-                                                    @error('nama_sekolah')
-                                                        <span class="text-danger">
-                                                            *<strong>{{ $message }}</strong>
-                                                        </span>
-                                                    @enderror
                                                     <div class="col-md-8 form-group">
                                                         <input type="text" id="nama_sekolah" class="form-control @error('nama_sekolah') is-invalid @enderror" name="nama_sekolah">
                                                     </div>
                                                     <div class="col-md-4">
                                                         <label for="jurusan">Jurusan Sekolah</label>
                                                     </div>
-                                                    @error('jurusan_sekolah')
-                                                        <span class="text-danger">
-                                                            *<strong>{{ $message }}</strong>
-                                                        </span>
-                                                    @enderror
                                                     <div class="col-md-8 form-group">
                                                         <input type="text" id="jurusan_sekolah" class="form-control @error('jurusan_sekolah') is-invalid @enderror" name="jurusan_sekolah"
                                                             placeholder="Contoh : IPA">
@@ -201,20 +182,10 @@
                                                     <div class="col-md-4">
                                                         <label for="periode">Periode Sekolah</label>
                                                     </div>
-                                                    @error('tahun_masuk')
-                                                        <span class="text-danger">
-                                                            *<strong>{{ $message }}</strong>
-                                                        </span>
-                                                    @enderror
                                                     <div class="col-md-4 form-group">
                                                         <input type="text" id="tahun_masuk" class="form-control @error('tahun_masuk') is-invalid @enderror" name="tahun_masuk"
                                                             placeholder="Tahun Masuk" onkeypress="return isNumber(event)">
                                                     </div>
-                                                    @error('tahun_lulus')
-                                                        <span class="text-danger">
-                                                            *<strong>{{ $message }}</strong>
-                                                        </span>
-                                                    @enderror
                                                     <div class="col-md-4 form-group">
                                                         <input type="text" id="tahun_lulus" class="form-control @error('tahun_lulus') is-invalid @enderror" name="tahun_lulus"
                                                             placeholder="Tahun Lulus" onkeypress="return isNumber(event)">
@@ -259,7 +230,7 @@
                                                         <label for="pendidikan_ayah">Pendidikan Terakhir</label>
                                                     </div>
                                                     <div class="col-md-8 form-group">
-                                                        <select class="form-select" id="pendidikan_ayah" name="pendidikan_ayah">
+                                                        <select class="form-select select2" id="pendidikan_ayah" name="pendidikan_ayah">
                                                             <option value="">-- Pilih Pendidikan Terakhir--</option>
                                                             <option value="SD">SD</option>
                                                             <option value="SMP">SMP</option>
@@ -278,6 +249,13 @@
                                                     </div>
                                                     <div class="col-md-8 form-group">
                                                         <input type="text" id="pekerjaan_ayah" class="form-control" name="pekerjaan_ayah">
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label for="penghasilan">Penghasilan</label>
+                                                    </div>
+                                                    <div class="col-md-8 form-group">
+                                                        <input type="text" id="penghasilan_ayah" class="form-control" name="penghasilan_ayah"
+                                                            onkeypress="return isNumber(event)">
                                                     </div>
                                                 </div>
                                                 {{-- End section Biodata Ayah --}}
@@ -318,7 +296,7 @@
                                                         <label for="pendidikan_ibu">Pendidikan Terakhir</label>
                                                     </div>
                                                     <div class="col-md-8 form-group">
-                                                        <select class="form-select" id="pendidikan_ibu" name="pendidikan_ibu">
+                                                        <select class="form-select select2" id="pendidikan_ibu" name="pendidikan_ibu">
                                                             <option value="">-- Pilih Pendidikan Terakhir--</option>
                                                             <option value="SD">SD</option>
                                                             <option value="SMP">SMP</option>
@@ -338,6 +316,13 @@
                                                     <div class="col-md-8 form-group">
                                                         <input type="text" id="pekerjaan_ibu" class="form-control" name="pekerjaan_ibu">
                                                     </div>
+                                                    <div class="col-md-4">
+                                                        <label for="penghasilan">Penghasilan</label>
+                                                    </div>
+                                                    <div class="col-md-8 form-group">
+                                                        <input type="text" id="penghasilan_ibu" class="form-control" name="penghasilan_ibu"
+                                                            onkeypress="return isNumber(event)">
+                                                    </div>
                                                 </div>
                                                 {{-- End section Biodata Ibu --}}
             
@@ -347,11 +332,6 @@
                                                     <div class="col-md-4">
                                                         <label for="file">File Ijazah</label>
                                                     </div>
-                                                    @error('file')
-                                                        <span class="text-danger">
-                                                            *<strong>{{ $message }}</strong>
-                                                        </span>
-                                                    @enderror
                                                     <div class="col-md-8 form-group">
                                                         <input type="file" class="basic-filepond @error('file') is-invalid @enderror" id="file" name="file">
                                                         <small>File bertipe PDF, maksimal berukuran 2MB</small>
@@ -359,11 +339,6 @@
                                                     <div class="col-md-4">
                                                         <label for="no_ijazah">No Ijazah</label>
                                                     </div>
-                                                    @error('no_ijazah')
-                                                        <span class="text-danger">
-                                                            *<strong>{{ $message }}</strong>
-                                                        </span>
-                                                    @enderror
                                                     <div class="col-md-8 form-group">
                                                         <input type="text" id="no_ijazah" class="form-control @error('no_ijazah') is-invalid @enderror" name="no_ijazah">
                                                     </div>
@@ -376,13 +351,8 @@
                                                     <div class="col-md-4">
                                                         <label for="prodi_id">Program Studi</label>
                                                     </div>
-                                                    @error('prodi_id')
-                                                        <span class="text-danger">
-                                                            *<strong>{{ $message }}</strong>
-                                                        </span>
-                                                    @enderror
                                                     <div class="col-md-8 form-group">
-                                                        <select class="form-select @error('prodi_id') is-invalid @enderror" id="prodi_id" name="prodi_id">
+                                                        <select class="form-select select2 @error('prodi_id') is-invalid @enderror" id="prodi_id" name="prodi_id">
                                                             <option value="">-- Pilih Program Studi--</option>
                                                             @foreach($prodi as $p)
                                                                 <option value="{{ $p->id }}">{{ $p->nama_prodi }}</option>
@@ -393,7 +363,7 @@
                                                 {{-- End section Jurusan --}}
                                                 {{-- start section pembayaran --}}
                                                 <h4 class="card-title">Pembayaran Pendaftaran</h4>
-                                                <span>Silahkan lakukan pembayaran Biaya Pendaftaran melalui transfer {{ $config->nama_bank }} a/n {{ $config->atasnama_rekening }}</span>
+                                                <span>Silahkan lakukan pembayaran Biaya Pendaftaran melalui transfer {{ $config->nama_bank }} a/n {{ $config->atasnama_rekenning }}</span>
                                                 <div class="alert alert-light-secondary color-secondary mt-2">
                                                     <div class="row">
                                                         <div class="col-md-3">
@@ -401,7 +371,7 @@
                                                         </div>
                                                         <div class="col-md-8">
                                                             <h3 class="mt-5">No. Rekening : {{ $config->no_rekening }}</h3>
-                                                            <h3>a/n {{ $config->atasnama_rekening }}</h3>
+                                                            <h3>a/n {{ $config->atasnama_rekenning }}</h3>
                                                         </div>
                                                     </div>
                                                     <hr>
@@ -411,19 +381,20 @@
                                                     <div class="col-md-4">
                                                         <label for="file_pembayaran">Bukti Pembayaran</label>
                                                     </div>
-                                                    @error('file_pembayaran')
-                                                        <span class="text-danger">
-                                                            *<strong>{{ $message }}</strong>
-                                                        </span>
-                                                    @enderror
                                                     <div class="col-md-8 form-group">
                                                         <input type="file" class="image-preview-filepond @error('file_pembayaran') is-invalid @enderror" id="file_pembayaran" name="file_pembayaran">
                                                         <small>File bertipe jpg/jpeg/png, maksimal berukuran 2MB</small>
                                                     </div>
                                                     <input type="hidden" name="nominal_pendaftaran" id="nominal_pendaftaran" value="{{ $config->biaya_pendaftaran }}">
+                                                    <div class="col-md-4">
+                                                        <label for="tgl_bayar">Tanggal Pembayaran</label>
+                                                    </div>
+                                                    <div class="col-md-8 form-group">
+                                                        <input type="date" id="tgl_bayar" class="form-control @error('tgl_bayar') is-invalid @enderror" name="tgl_bayar">
+                                                    </div>
                                                 </div>
                                                 {{-- end section pembayaran --}}
-                                                <button id="save" type="button" class="btn btn-success">
+                                                <button id="save" type="submit" class="btn btn-success">
                                                     {{-- <i class="bx bx-check d-block d-sm-none"></i>
                                                     <span class="d-none d-sm-block">Daftar</span> --}}
                                                     Daftar
@@ -449,42 +420,130 @@
 @push('script')
     <script>
         $(document).ready(function () {
-            $('#save').click(function(){
-                var form = $('#form')[0],
-                data = new FormData(form);
+            // $('#save').click(function(){
+            //     var form = $('#form')[0],
+            //     data = new FormData(form);
                 
-                $('.spinner').css('display','block');
-                $(this).css('display','none');
+            //     $('.spinner').css('display','block');
+            //     $(this).css('display','none');
 
-                $.ajaxSetup({
-                    headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-                $.ajax({
-                    url: "/pendaftaran",
-                    type: 'POST',
-                    processData: false,
-                    contentType: false,
-                    data: data,
-                    success: function(result) {
-                        if (result.success) {
-                            successMsg(result.success)
-                            $('.spinner').css('display','none');
-                            $('#save').css('display','block');
-                            $('#form').find('input').val('');
-                            location.reload();
-                        } else {
-                            $('.spinner').css('display','none');
-                            $('#save').css('display','block');
-                            msg = ''
-                            $.each(result.errors, function(key, value) {
-                                msg += value;
-                            });
-                            errorMsg(msg)
-                        }
-                    }
-                });
+            //     $.ajaxSetup({
+            //         headers: {
+            //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            //         }
+            //     });
+            //     $.ajax({
+            //         url: "/pendaftaran",
+            //         type: 'POST',
+            //         processData: false,
+            //         contentType: false,
+            //         data: data,
+            //         success: function(result) {
+            //             if (result.success) {
+            //                 successMsg(result.success)
+            //                 $('.spinner').css('display','none');
+            //                 $('#save').css('display','block');
+            //                 $('#form').find('input').val('');
+            //                 location.reload();
+            //             } else {
+            //                 $('.spinner').css('display','none');
+            //                 $('#save').css('display','block');
+            //                 msg = ''
+            //                 $.each(result.errors, function(key, value) {
+            //                     msg += value;
+            //                 });
+            //                 errorMsg(msg)
+            //             }
+            //         }
+            //     });
+            // });
+        }).on('change','#provinsi_id',function(){
+            var id = $(this).val();
+
+            // $.ajaxSetup({
+            //     headers: {
+            //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            //     }
+            // });
+            $.ajax({
+                url: "/kota/"+id,
+                type: 'GET',
+                success: function (result) {
+                    var data = '<option value="">-- Pilih Kota --</option>'
+                    $.each(result, function (key, val) {
+                        data += '<option value="'+val.id+'">'+val.nama_kota+'</option>'
+                    });
+                    $('#kota_id').html(data);
+                },
+                // complete: function () {
+                //     var newToken = $('meta[name="csrf-token"]').attr('content');
+                //     $('input[name="_token"]').val(newToken);
+                // }
+            });
+        }).on('change','#kota_id',function(){
+            var id = $(this).val();
+
+            // $.ajaxSetup({
+            //     headers: {
+            //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            //     }
+            // });
+            $.ajax({
+                url: "/kecamatan/"+id,
+                type: 'GET',
+                success: function (result) {
+                    var data = '<option value="">-- Pilih Kecamatan --</option>'
+                    $.each(result, function (key, val) {
+                        data += '<option value="'+val.id+'">'+val.nama_kecamatan+'</option>'
+                    });
+                    $('#kecamatan_id').html(data);
+                },
+                // complete: function () {
+                //     var newToken = $('meta[name="csrf-token"]').attr('content');
+                //     $('input[name="_token"]').val(newToken);
+                // }
+            });
+        }).on('change','#kecamatan_id',function(){
+            var id = $(this).val();
+
+            // $.ajaxSetup({
+            //     headers: {
+            //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            //     }
+            // });
+            $.ajax({
+                url: "/kelurahan/"+id,
+                type: 'GET',
+                success: function (result) {
+                    var data = '<option value="">-- Pilih Kelurahan --</option>'
+                    $.each(result, function (key, val) {
+                        data += '<option value="'+val.id+'">'+val.nama_kelurahan+'</option>'
+                    });
+                    $('#kelurahan_id').html(data);
+                },
+                // complete: function () {
+                //     var newToken = $('meta[name="csrf-token"]').attr('content');
+                //     $('input[name="_token"]').val(newToken);
+                // }
+            });
+        }).on('change','#kelurahan_id',function(){
+            var id = $(this).val();
+
+            // $.ajaxSetup({
+            //     headers: {
+            //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            //     }
+            // });
+            $.ajax({
+                url: "/kodepos/"+id,
+                type: 'GET',
+                success: function (result) {
+                    $('#kode_pos').val(result.kode_pos);
+                },
+                // complete: function () {
+                //     var newToken = $('meta[name="csrf-token"]').attr('content');
+                //     $('input[name="_token"]').val(newToken);
+                // }
             });
         })
     </script>
