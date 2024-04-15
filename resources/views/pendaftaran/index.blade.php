@@ -13,7 +13,7 @@
                     <div class="col-sm-6 mb-4 mb-xl-0">
                         <div class="d-lg-flex align-items-center">
                             <div>
-                                <h3 class="text-dark font-weight-bold mb-2">Hi, {{ Auth::user()->nama }}!</h3>
+                                <h3 class="text-dark font-weight-bold mb-2">Hi, {{ $user->name }}!</h3>
                             </div>
                         </div>
                     </div>
@@ -26,7 +26,7 @@
                                     @if ($is_regis)
                                     <div class="card-body mt-3">
                                         <h2 style="color: black;">{{ $title }}</h2>
-                                        <h4>Data Pendaftaran Mahasiswa Baru Tahun Ajaran {{ $user->pendaftaran[0]->tahunajaran->nama_tahun_ajaran }} telah tersimpan</h4>
+                                        <h4>Data Pendaftaran Mahasiswa Baru Tahun Ajaran {{ $user->pendaftaran[0]->periode->nama_periode }} Semester {{ $user->pendaftaran[0]->periode->semester }} telah tersimpan</h4>
                                         <span>Silahkan pantau hasil pengumuman Penerimaan Mahasiswa Baru pada menu "Pengumuman"</span>
                                     </div>
                                     @else
@@ -36,7 +36,7 @@
                                                 @csrf
                                                 {{-- Start section Biodata Diri --}}
                                                 <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
-                                                <input type="hidden" name="tahun_ajaran_id" value="{{ $tahun_ajarans->id }}">
+                                                <input type="hidden" name="tahun_ajaran_id" value="{{ $periodes->id }}">
                                                 <h4 class="card-title">Biodata Diri</h4>
                                                 <div class="row">
                                                     <div class="col-md-4">
@@ -95,6 +95,21 @@
                                                     @enderror
                                                     <div class="col-md-8 form-group">
                                                         <input type="text" id="alamat" class="form-control @error('alamat') is-invalid @enderror" name="alamat">
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label for="provinsi_id">Provinsi</label>
+                                                    </div>
+                                                    @error('provinsi_id')
+                                                        <span class="text-danger">
+                                                            *<strong>{{ $message }}</strong>
+                                                        </span>
+                                                    @enderror
+                                                    <div class="col-md-8 form-group">
+                                                        <select class="form-select js-example-basic-single @error('provinsi_id') is-invalid @enderror" id="provinsi_id" name="provinsi_id">
+                                                            @foreach ($provinsis as $pr)
+                                                                <option value="{{ $pr->id }}">{{ $pr->nama_provinsi }}</option>
+                                                            @endforeach
+                                                        </select>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <label for="telp">Nomor Telepon</label>

@@ -49,7 +49,7 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'nama' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:255'],
             'telp' => ['required', 'unique:users,telp'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
@@ -64,17 +64,13 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        if (substr($data['telp'], 0, 1) === '0') {
-            $telp = '62' . substr($data['telp'], 1);
-        }else{
-            $telp = $data['telp'];
-        }
-        return User::create([
-            'nama' => strtoupper($data['nama']),
-            'telp' => $telp,
+        $user = User::create([
+            'name' => strtoupper($data['name']),
+            'telp' => $data['telp'],
             'email' => $data['email'],
-            'role_id' => 5,
             'password' => Hash::make($data['password']),
         ]);
+        $user->assignRole('pendaftar');
+        return $user;
     }
 }

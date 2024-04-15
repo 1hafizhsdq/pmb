@@ -10,8 +10,8 @@ class Pendaftaran extends Model
     use HasFactory;
     protected $guarded = [];
 
-    public function tahunajaran(){
-        return $this->belongsTo(TahunAjaran::class, 'tahun_ajaran_id');
+    public function periode(){
+        return $this->belongsTo(Periode::class, 'periode_id');
     }
 
     public function user()

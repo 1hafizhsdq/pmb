@@ -29,14 +29,14 @@
               <form class="pt-3" method="POST" action="{{ route('login') }}">
                 @csrf
                 <div class="form-group">
-                  <label for="email">Email</label>
-                  @error('email')
+                  <label for="username">Email</label>
+                  @error('username')
                     <span class="text-danger">
                         *<strong>{{ $message }}</strong>
                     </span>
                   @enderror
                   <div class="input-group">
-                    <input type="text" class="form-control form-control-lg border-left-0 @error('email') is-invalid @enderror" id="email" name="email" placeholder="Email" value="{{ old('email') }}">
+                    <input type="text" class="form-control form-control-lg border-left-0 @error('username') is-invalid @enderror" id="username" name="username" placeholder="Email" value="{{ old('username') }}">
                   </div>
                 </div>
                 <div class="form-group">

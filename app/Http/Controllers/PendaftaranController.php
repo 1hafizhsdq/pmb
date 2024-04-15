@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Aplikasi;
 use App\Models\BiodataMahasiswa;
 use App\Models\Cofigs;
 use App\Models\Pendaftaran;
+use App\Models\Periode;
 use App\Models\Prodi;
-use App\Models\TahunAjaran;
+use App\Models\Provinsi;
 use App\Models\User;
 use CURLFile;
 use GuzzleHttp\Client;
@@ -20,20 +22,14 @@ class PendaftaranController extends Controller
 {
     public function index()
     {
-        if(Auth::user()->role_id != 5){
-            Auth::logout();
-            Session::flash('message', 'Akses ditolak.');
-
-            return view('auth.login');
-        }
-
         $data['title'] = 'Pendaftaran Mahasiswa Baru';
-        $data['tahun_ajarans'] = TahunAjaran::where('is_active',1)->first();
-        $data['user'] = User::with('pendaftaran.tahunajaran','biodatamahasiswa')
+        $data['periodes'] = Periode::where('is_active',1)->first();
+        $data['user'] = User::with('pendaftaran.periode')
             ->where('id', Auth::user()->id)
             ->first();
         $data['prodi'] = Prodi::get();
-        $data['config'] = Cofigs::find(1);
+        $data['provinsis'] = Provinsi::all();
+        $data['config'] = Aplikasi::find(1);
 
         if($data['user']->pendaftaran->isEmpty()){
             $data['is_regis'] = false;

@@ -59,7 +59,7 @@
                     <input type="text" class="form-control form-control-lg border-left-0 @error('email') is-invalid @enderror" placeholder="Email" name="email" value="{{ old('email') }}" placeholder="Email">
                   </div>
                 </div>
-                @error('nama')
+                @error('name')
                     <span class="text-danger">
                         *<strong>{{ $message }}</strong>
                     </span>
@@ -67,7 +67,7 @@
                 <div class="form-group">
                   <label>Nama Lengkap</label>
                   <div class="input-group">
-                    <input type="text" class="form-control form-control-lg border-left-0 @error('nama') is-invalid @enderror" name="nama" value="{{ old('nama') }}" placeholder="Nama Lengkap">
+                    <input type="text" class="form-control form-control-lg border-left-0 @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" placeholder="Nama Lengkap">
                   </div>
                 </div>
                 @error('telp')
