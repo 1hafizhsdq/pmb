@@ -51,13 +51,13 @@
             </table>
             <div class="row mt-5">
                 <div class="col-md-4">
-                    <label for="file_pembayaran">Bukti Pembayaran</label>
+                    <label for="file_herregistrasi">Bukti Pembayaran</label>
                 </div>
                 <div class="col-md-8 form-group">
-                    <input type="file" class="image-preview-filepond @error('file_pembayaran') is-invalid @enderror" id="file_pembayaran" name="file_pembayaran">
+                    <input type="file" class="image-preview-filepond @error('file_herregistrasi') is-invalid @enderror" id="file_herregistrasi" name="file_herregistrasi">
                     <small>File bertipe jpg/jpeg/png, maksimal berukuran 2MB</small>
                 </div>
-                <input type="hidden" name="nominal_pendaftaran" id="nominal_pendaftaran" value="{{ $config->biaya_herregistrasi }}">
+                <input type="hidden" name="nominal_bayar" id="nominal_bayar" value="{{ $config->biaya_herregistrasi }}">
                 <div class="col-md-4">
                     <label for="tgl_bayar">Tanggal Pembayaran</label>
                 </div>
@@ -74,6 +74,8 @@
         <input type="hidden" name="pendaftaran_id" value="{{ $pengumuman->id }}">
         <input type="hidden" name="statusmahasiswa_id" value="1">
         <input type="hidden" name="prodi_id" value="{{ $pengumuman->prodi_id }}">
+        <input type="hidden" name="periode_id" value="{{ $pengumuman->periode_id }}">
+        <input type="hidden" name="semester" value="1">
         <h4 class="card-title">Biodata Diri</h4>
         <div class="row">
             <div class="col-md-4">

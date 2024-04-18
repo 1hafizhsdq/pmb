@@ -175,11 +175,29 @@
                                                 </div>
                                                 <div id="test-nlf-2" role="tabpanel" class="bs-stepper-pane fade"
                                                     aria-labelledby="stepper3trigger2">
-                                                    @includeIf('pendaftaran.herreg')
-                                                    <button class="btn btn-secondary"
+                                                    @if (empty($herregistrasi))
+                                                        @includeIf('pendaftaran.herreg')
+                                                        <button class="btn btn-secondary"
                                                         onclick="stepper3.previous()">Kembali</button>
-                                                    <button class="btn btn-primary"
-                                                        id="save">Selanjutnya</button>
+                                                        <button class="btn btn-primary"
+                                                            id="save">Simpan & Lanjutkan</button>
+                                                    @else
+                                                        <div class="row mb-5">
+                                                            <div class="col"></div>
+                                                            <div class="col-10">
+                                                                <img style="height: 70px; width: 90px; margin-bottom: 25px;"
+                                                                    src="{{ asset('img') }}/tolak.png"
+                                                                    alt="logo" />
+                                                                <h2>MOHON DITUNGGU</h2>
+                                                                <h4>Data Herregistrasi/Daftar Ulang anda telah tersimpan dan sedang dalam masa proses.</h4>
+                                                            </div>
+                                                            <div class="col"></div>
+                                                        </div>
+                                                        <button class="btn btn-secondary"
+                                                            onclick="stepper3.previous()">Kembali</button>
+                                                        <button class="btn btn-primary"
+                                                            onclick="stepper3.next()">Selanjutnya</button>
+                                                    @endif
                                                 </div>
                                                 <div id="test-nlf-3" role="tabpanel"
                                                     class="bs-stepper-pane fade text-center"
@@ -207,39 +225,49 @@
         var stepper3;
         stepper3 = new Stepper(document.querySelector('#stepper3'));
         $(document).ready(function () {
-            // var stepper = new Stepper($('.bs-stepper')[0])
             $('#save').click(function () {
-                var form = $('#form')[0],
-                    data = new FormData(form);
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Apakah anda yakin data anda sudah benar?',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yakin',
+                    confirmButtonColor: '#0ddbb9',
+                    cancelButtonText: 'Batal',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        var form = $('#form')[0],
+                            data = new FormData(form);
 
-                $('.spinner').css('display', 'block');
-                $(this).css('display', 'none');
+                        $('.spinner').css('display', 'block');
+                        $(this).css('display', 'none');
 
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-                $.ajax({
-                    url: "herregistrasi",
-                    type: 'POST',
-                    processData: false,
-                    contentType: false,
-                    data: data,
-                    success: function (result) {
-                        if (result.success) {
-                            successMsg(result.success)
-                            $('.spinner').css('display', 'none');
-                            $('#save').css('display', 'block');
-                            $('#form').find('input').val('');
-                            location.reload();
-                        } else {
-                            $('.spinner').css('display', 'none');
-                            $('#save').css('display', 'block');
-                            $.each(result.errors, function (key, value) {
-                                errorMsg(value)
-                            });
-                        }
+                        $.ajaxSetup({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            }
+                        });
+                        $.ajax({
+                            url: "herregistrasi",
+                            type: 'POST',
+                            processData: false,
+                            contentType: false,
+                            data: data,
+                            success: function (result) {
+                                if (result.success) {
+                                    successMsg(result.success)
+                                    $('.spinner').css('display', 'none');
+                                    $('#save').css('display', 'block');
+                                    $('#form').find('input').val('');
+                                    location.reload();
+                                } else {
+                                    $('.spinner').css('display', 'none');
+                                    $('#save').css('display', 'block');
+                                    $.each(result.errors, function (key, value) {
+                                        errorMsg(value)
+                                    });
+                                }
+                            }
+                        });
                     }
                 });
             });

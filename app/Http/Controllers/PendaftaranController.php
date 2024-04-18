@@ -6,6 +6,7 @@ use App\Models\Agama;
 use App\Models\Aplikasi;
 use App\Models\BiodataMahasiswa;
 use App\Models\Cofigs;
+use App\Models\Herregistrasi;
 use App\Models\JenisTinggal;
 use App\Models\Kecamatan;
 use App\Models\Kelurahan;
@@ -76,6 +77,9 @@ class PendaftaranController extends Controller
                 $q->where('is_active',1);
             })
             ->where('user_id', Auth::user()->id)
+            ->first();
+        $data['herregistrasi'] = Herregistrasi::where('user_id', Auth::user()->id)
+            ->where('semester',1)
             ->first();
         $data['config'] = Aplikasi::find(1);
         $data['agamas'] = Agama::all();
