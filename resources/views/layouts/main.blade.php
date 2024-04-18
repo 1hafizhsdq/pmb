@@ -8,11 +8,12 @@
     <link rel="stylesheet" href="{{ asset('template') }}/vendors/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="{{ asset('template') }}/vendors/base/vendor.bundle.base.css">
     <link rel="stylesheet" href="{{ asset('template') }}/css/style.css">
-    <link rel="shortcut icon" href="{{ asset('template') }}/images/favicon.png" />
+    <link rel="shortcut icon" href="{{ asset('img') }}/logo.png" />
     <link rel="stylesheet" href="{{ asset('template') }}/vendors/filepond/filepond.css">
     <link rel="stylesheet" href="{{ asset('select2') }}/dist/css/select2.css">
     <link rel="stylesheet"
         href="{{ asset('template') }}/vendors/filepond-plugin-image-preview/filepond-plugin-image-preview.css">
+    <link rel="stylesheet" href="{{ asset('stepper') }}/src/css/bs-stepper.css">
 </head>
 
 <body>
@@ -174,6 +175,7 @@
 	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{{ asset('js') }}/sweetalert.js"></script>
     <script src="{{ asset('select2') }}/dist/js/select2.js"></script>
+    <script src="{{ asset('stepper') }}/src/js/bs-stepper.min.js"></script>
     <script>
         $('.select2').select2();
         $(document).ready(function () {
