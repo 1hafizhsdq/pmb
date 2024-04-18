@@ -191,13 +191,12 @@
                                                             <div class="col"></div>
                                                         </div>
                                                     @endif
-                                                    
                                                     <button class="btn btn-primary"
                                                         onclick="stepper3.next()">Selanjutnya</button>
                                                 </div>
                                                 <div id="test-nlf-2" role="tabpanel" class="bs-stepper-pane fade"
                                                     aria-labelledby="stepper3trigger2">
-                                                    
+                                                    @includeIf('pendaftaran.herreg')
                                                     <button class="btn btn-secondary"
                                                         onclick="stepper3.previous()">Kembali</button>
                                                     <button class="btn btn-primary"

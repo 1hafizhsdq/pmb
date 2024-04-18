@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Agama;
 use App\Models\Aplikasi;
 use App\Models\BiodataMahasiswa;
 use App\Models\Cofigs;
@@ -73,6 +74,7 @@ class PendaftaranController extends Controller
             ->where('user_id', Auth::user()->id)
             ->first();
         $data['config'] = Aplikasi::find(1);
+        $data['agamas'] = Agama::all();
 
         return view('pendaftaran.pengumuman',$data);
     }
