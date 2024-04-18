@@ -6,6 +6,9 @@
 @endpush
 
 @section('content')
+@php
+    use Carbon\Carbon;
+@endphp
 <div class="container-fluid page-body-wrapper">
     <div class="main-panel">
         <div class="content-wrapper">
@@ -23,15 +26,15 @@
                     <div class="row">
                         <div class="col-sm-12 grid-margin d-flex stretch-card">
                             <div class="card text-center py-5">
-                                @if ($pengumuman == null)
+                                @if($pengumuman == null)
                                     <div class="row mb-5">
                                         <div class="col"></div>
                                         <div class="col-10">
                                             <img style="height: 70px; width: 90px; margin-bottom: 25px;"
-                                                src="{{ asset('img') }}/tolak.png"
-                                                alt="logo" />
+                                                src="{{ asset('img') }}/tolak.png" alt="logo" />
                                             <h2>PERHATIAN</h2>
-                                            <h4>Anda belum melakukan pendaftaran, segera lakukan Pendaftaran Mahasiswa Baru!</h4>
+                                            <h4>Anda belum melakukan pendaftaran, segera lakukan Pendaftaran Mahasiswa
+                                                Baru!</h4>
                                         </div>
                                         <div class="col"></div>
                                     </div>
@@ -39,8 +42,8 @@
                                     <div id="stepper3" class="bs-stepper">
                                         <div class="bs-stepper-header" role="tablist">
                                             <div class="step" data-target="#test-nlf-1">
-                                                <button type="button" class="step-trigger" role="tab" id="stepper3trigger1"
-                                                    aria-controls="test-nlf-1">
+                                                <button type="button" class="step-trigger" role="tab"
+                                                    id="stepper3trigger1" aria-controls="test-nlf-1">
                                                     <span class="bs-stepper-circle">
                                                         <i class="mdi mdi-file-document-box menu-icon"></i>
                                                     </span>
@@ -49,8 +52,8 @@
                                             </div>
                                             <div class="bs-stepper-line"></div>
                                             <div class="step" data-target="#test-nlf-2">
-                                                <button type="button" class="step-trigger" role="tab" id="stepper3trigger2"
-                                                    aria-controls="test-nlf-2">
+                                                <button type="button" class="step-trigger" role="tab"
+                                                    id="stepper3trigger2" aria-controls="test-nlf-2">
                                                     <span class="bs-stepper-circle">
                                                         <i class="mdi mdi-file-document-box menu-icon"></i>
                                                     </span>
@@ -59,8 +62,8 @@
                                             </div>
                                             <div class="bs-stepper-line"></div>
                                             <div class="step" data-target="#test-nlf-3">
-                                                <button type="button" class="step-trigger" role="tab" id="stepper3trigger3"
-                                                    aria-controls="test-nlf-3">
+                                                <button type="button" class="step-trigger" role="tab"
+                                                    id="stepper3trigger3" aria-controls="test-nlf-3">
                                                     <span class="bs-stepper-circle">
                                                         <i class="mdi mdi-file-document-box menu-icon"></i>
                                                     </span>
@@ -73,7 +76,7 @@
                                                 @csrf
                                                 <div id="test-nlf-1" role="tabpanel" class="bs-stepper-pane fade"
                                                     aria-labelledby="stepper3trigger1">
-                                                    @if ($pengumuman->status == '1')
+                                                    @if($pengumuman->status == '1')
                                                         <div class="row mb-5">
                                                             <div class="col"></div>
                                                             <div class="col-10">
@@ -81,8 +84,10 @@
                                                                     src="{{ asset('img') }}/pengumuman.png"
                                                                     alt="logo" />
                                                                 <h2>SELAMAT CALON MAHASISWA BARU</h2>
-                                                                <h4>Selamat Anda telah dinyatakan LULUS SELEKSI pendaftaran
-                                                                    Mahasiswa baru {{ $pengumuman->periode->nama_periode }}
+                                                                <h4>Selamat Anda telah dinyatakan LULUS SELEKSI
+                                                                    pendaftaran
+                                                                    Mahasiswa baru
+                                                                    {{ $pengumuman->periode->nama_periode }}
                                                                     {{ $pengumuman->periode->semester }}. </h4>
                                                                 <div class="alert alert-light" role="alert">
                                                                     <div class="row">
@@ -93,23 +98,48 @@
                                                                                     <tbody>
                                                                                         <tr>
                                                                                             <td></td>
-                                                                                            <td style="text-align: left;"><strong>Nama Lengkap</strong></td>
-                                                                                            <td style="text-align: left;">{{ $pengumuman->nama }}</td>
+                                                                                            <td
+                                                                                                style="text-align: left;">
+                                                                                                <strong>Nama
+                                                                                                    Lengkap</strong>
+                                                                                            </td>
+                                                                                            <td
+                                                                                                style="text-align: left;">
+                                                                                                {{ $pengumuman->nama }}
+                                                                                            </td>
                                                                                         </tr>
                                                                                         <tr>
                                                                                             <td></td>
-                                                                                            <td style="text-align: left;"><strong>Program Studi</strong></td>
-                                                                                            <td style="text-align: left;">{{ $pengumuman->prodi->nama_prodi }}</td>
+                                                                                            <td
+                                                                                                style="text-align: left;">
+                                                                                                <strong>Program
+                                                                                                    Studi</strong></td>
+                                                                                            <td
+                                                                                                style="text-align: left;">
+                                                                                                {{ $pengumuman->prodi->nama_prodi }}
+                                                                                            </td>
                                                                                         </tr>
                                                                                         <tr>
                                                                                             <td></td>
-                                                                                            <td style="text-align: left;"><strong>Nominal Daftar Ulang</strong></td>
-                                                                                            <td style="text-align: left;">{{ 'Rp ' . number_format($config->biaya_herregistrasi, 0, ',', '.') }}</td>
+                                                                                            <td
+                                                                                                style="text-align: left;">
+                                                                                                <strong>Nominal Daftar
+                                                                                                    Ulang</strong></td>
+                                                                                            <td
+                                                                                                style="text-align: left;">
+                                                                                                {{ 'Rp ' . number_format($config->biaya_herregistrasi, 0, ',', '.') }}
+                                                                                            </td>
                                                                                         </tr>
                                                                                         <tr>
                                                                                             <td></td>
-                                                                                            <td style="text-align: left;"><strong>Batas Waktu Pendaftaran</strong></td>
-                                                                                            <td style="text-align: left;">-</td>
+                                                                                            <td
+                                                                                                style="text-align: left;">
+                                                                                                <strong>Batas Waktu
+                                                                                                    Pendaftaran</strong>
+                                                                                            </td>
+                                                                                            <td
+                                                                                                style="text-align: left;">
+                                                                                                -</td>
                                                                                         </tr>
                                                                                     </tbody>
                                                                                 </table>
@@ -121,7 +151,7 @@
                                                             </div>
                                                             <div class="col"></div>
                                                         </div>
-                                                    @elseif($pengumuman->status == '0')
+                                                    @elseif ($pengumuman->status == '0')
                                                         <div class="row mb-5">
                                                             <div class="col"></div>
                                                             <div class="col-10">
@@ -129,7 +159,8 @@
                                                                     src="{{ asset('img') }}/tolak.png"
                                                                     alt="logo" />
                                                                 <h2>MOHON MAAF, ANDA TIDAK LULUS</h2>
-                                                                <h4>Masih ada kesempatan pendaftaran Mahasiswa baru ditahun berikutnya. Tetap Semangat!</h4>
+                                                                <h4>Masih ada kesempatan pendaftaran Mahasiswa baru
+                                                                    ditahun berikutnya. Tetap Semangat!</h4>
                                                                 <div class="alert alert-light" role="alert">
                                                                     <div class="row">
                                                                         <div class="col-4"></div>
@@ -139,13 +170,26 @@
                                                                                     <tbody>
                                                                                         <tr>
                                                                                             <td></td>
-                                                                                            <td style="text-align: left;"><strong>Nama Lengkap</strong></td>
-                                                                                            <td style="text-align: left;">{{ $pengumuman->nama }}</td>
+                                                                                            <td
+                                                                                                style="text-align: left;">
+                                                                                                <strong>Nama
+                                                                                                    Lengkap</strong>
+                                                                                            </td>
+                                                                                            <td
+                                                                                                style="text-align: left;">
+                                                                                                {{ $pengumuman->nama }}
+                                                                                            </td>
                                                                                         </tr>
                                                                                         <tr>
                                                                                             <td></td>
-                                                                                            <td style="text-align: left;"><strong>Program Studi</strong></td>
-                                                                                            <td style="text-align: left;">{{ $pengumuman->prodi->nama_prodi }}</td>
+                                                                                            <td
+                                                                                                style="text-align: left;">
+                                                                                                <strong>Program
+                                                                                                    Studi</strong></td>
+                                                                                            <td
+                                                                                                style="text-align: left;">
+                                                                                                {{ $pengumuman->prodi->nama_prodi }}
+                                                                                            </td>
                                                                                         </tr>
                                                                                     </tbody>
                                                                                 </table>
@@ -165,7 +209,8 @@
                                                                     src="{{ asset('img') }}/tolak.png"
                                                                     alt="logo" />
                                                                 <h2>MOHON DITUNGGU</h2>
-                                                                <h4>Pengumuman Penerimaan Mahasiswa Baru Akan Segera Di Umumkan</h4>
+                                                                <h4>Pengumuman Penerimaan Mahasiswa Baru Akan Segera Di
+                                                                    Umumkan</h4>
                                                             </div>
                                                             <div class="col"></div>
                                                         </div>
@@ -175,33 +220,93 @@
                                                 </div>
                                                 <div id="test-nlf-2" role="tabpanel" class="bs-stepper-pane fade"
                                                     aria-labelledby="stepper3trigger2">
-                                                    @if (empty($herregistrasi))
+                                                    @if(empty($herregistrasi))
                                                         @includeIf('pendaftaran.herreg')
-                                                        <button class="btn btn-secondary"
-                                                        onclick="stepper3.previous()">Kembali</button>
-                                                        <button class="btn btn-primary"
-                                                            id="save">Simpan & Lanjutkan</button>
-                                                    @else
+                                                            <button class="btn btn-secondary"
+                                                                onclick="stepper3.previous()">Kembali</button>
+                                                            <button class="btn btn-primary" id="save">Simpan &
+                                                                Lanjutkan</button>
+                                                        @else
+                                                            <div class="row mb-5">
+                                                                <div class="col"></div>
+                                                                <div class="col-10">
+                                                                    <img style="height: 70px; width: 90px; margin-bottom: 25px;"
+                                                                        src="{{ asset('img') }}/tolak.png"
+                                                                        alt="logo" />
+                                                                    <h2>MOHON DITUNGGU</h2>
+                                                                    <h4>Data Herregistrasi/Daftar Ulang anda telah
+                                                                        tersimpan dan sedang dalam masa proses.</h4>
+                                                                </div>
+                                                                <div class="col"></div>
+                                                            </div>
+                                                            <button class="btn btn-secondary"
+                                                                onclick="stepper3.previous()">Kembali</button>
+                                                            <button class="btn btn-primary"
+                                                                onclick="stepper3.next()">Selanjutnya</button>
+                                                        @endif
+                                                </div>
+                                                <div id="test-nlf-3" role="tabpanel"
+                                                    class="bs-stepper-pane fade text-center"
+                                                    aria-labelledby="stepper3trigger3">
+                                                    @if(empty($herregistrasi))
                                                         <div class="row mb-5">
                                                             <div class="col"></div>
                                                             <div class="col-10">
                                                                 <img style="height: 70px; width: 90px; margin-bottom: 25px;"
                                                                     src="{{ asset('img') }}/tolak.png"
                                                                     alt="logo" />
-                                                                <h2>MOHON DITUNGGU</h2>
-                                                                <h4>Data Herregistrasi/Daftar Ulang anda telah tersimpan dan sedang dalam masa proses.</h4>
+                                                                <h2>PERHATIAN</h2>
+                                                                <h4>Anda belum melakukan daftar ulang, segera lakukan
+                                                                    daftar ulang terlebih dahulu!</h4>
                                                             </div>
                                                             <div class="col"></div>
                                                         </div>
-                                                        <button class="btn btn-secondary"
-                                                            onclick="stepper3.previous()">Kembali</button>
-                                                        <button class="btn btn-primary"
-                                                            onclick="stepper3.next()">Selanjutnya</button>
+                                                    @else
+                                                        <table class="table table-bordered mb-3">
+                                                            <tbody style="text-align: left;">
+                                                                <tr>
+                                                                    <td>
+                                                                        <strong>Nama Lengkap</strong>
+                                                                    </td>
+                                                                    <td>
+                                                                        {{ $pengumuman->nama }}
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <strong>Program Studi</strong>
+                                                                    </td>
+                                                                    <td>
+                                                                        {{ $pengumuman->prodi->nama_prodi }}
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <strong>Nominal Daftar Ulang</strong>
+                                                                    </td>
+                                                                    <td>
+                                                                        {{ 'Rp ' . number_format($herregistrasi->nominal_herregistrasi, 0, ',', '.') }}
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <strong>Tanggal Daftar Ulang</strong>
+                                                                    </td>
+                                                                    <td>
+                                                                        {{ Carbon::parse($herregistrasi->tgl_bayar)->isoFormat('D MMMM Y') }}
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <strong>Bukti Bayar</strong>
+                                                                    </td>
+                                                                    <td>
+                                                                        <a href="//siakad.test/herregistrasi/{{ $herregistrasi->bukti_bayar }}" target="_blank" alt="">Lihat Dokumen</a>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
                                                     @endif
-                                                </div>
-                                                <div id="test-nlf-3" role="tabpanel"
-                                                    class="bs-stepper-pane fade text-center"
-                                                    aria-labelledby="stepper3trigger3">
                                                     <button class="btn btn-secondary"
                                                         onclick="stepper3.previous()">Kembali</button>
                                                 </div>
@@ -243,7 +348,8 @@
 
                         $.ajaxSetup({
                             headers: {
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+                                    'content')
                             }
                         });
                         $.ajax({
