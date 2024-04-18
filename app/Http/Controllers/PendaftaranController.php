@@ -6,14 +6,18 @@ use App\Models\Agama;
 use App\Models\Aplikasi;
 use App\Models\BiodataMahasiswa;
 use App\Models\Cofigs;
+use App\Models\JenisTinggal;
 use App\Models\Kecamatan;
 use App\Models\Kelurahan;
 use App\Models\Kota;
+use App\Models\Negara;
 use App\Models\Ortu;
 use App\Models\Pendaftaran;
 use App\Models\Periode;
 use App\Models\Prodi;
 use App\Models\Provinsi;
+use App\Models\StatusMahasiswa;
+use App\Models\Transportasi;
 use App\Models\User;
 use CURLFile;
 use GuzzleHttp\Client;
@@ -75,6 +79,9 @@ class PendaftaranController extends Controller
             ->first();
         $data['config'] = Aplikasi::find(1);
         $data['agamas'] = Agama::all();
+        $data['transportasis'] = Transportasi::all();
+        $data['negaras'] = Negara::all();
+        $data['jenistinggals'] = JenisTinggal::all();
 
         return view('pendaftaran.pengumuman',$data);
     }

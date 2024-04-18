@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HerregistrasiController;
 use App\Http\Controllers\PendaftaranController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -12,8 +13,8 @@ Route::middleware(['auth'])->group(function () {
     
     // pendaftaran
     Route::resource('pendaftaran', PendaftaranController::class);;
+    Route::resource('herregistrasi', HerregistrasiController::class);;
     Route::get('/pengumuman', [PendaftaranController::class, 'pengumuman']);
-    Route::post('/herregistrasi', [PendaftaranController::class, 'storeherregistrasi']);
     Route::get('/kota/{provinsiid}', [PendaftaranController::class, 'kota']);
     Route::get('/kecamatan/{kotaid}', [PendaftaranController::class, 'kecamatan']);
     Route::get('/kelurahan/{kecamatanid}', [PendaftaranController::class, 'kelurahan']);

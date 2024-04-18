@@ -3,28 +3,6 @@
 @section('title', $title)
 
 @push('css')
-    <style>
-        .tabelprofil {
-            margin: 10px;
-            border: 1px solid black;
-            border-collapse: collapse;
-            font-family: 'Arial';
-            font-size: 12px;
-        }
-
-        th,
-        .tabelprofil td,
-        .tabelprofil tr,
-        .tabelprofil th {
-            border-bottom: 1px solid black;
-            border-top: 1px solid black;
-            border-left: 1px solid black;
-            border-right: 1px solid black;
-            border: 1px solid black;
-            padding: 5px;
-        }
-
-    </style>
 @endpush
 
 @section('content')
@@ -91,7 +69,8 @@
                                             </div>
                                         </div>
                                         <div class="bs-stepper-content">
-                                            <form onSubmit="return false">
+                                            <form id="form" onSubmit="return false">
+                                                @csrf
                                                 <div id="test-nlf-1" role="tabpanel" class="bs-stepper-pane fade"
                                                     aria-labelledby="stepper3trigger1">
                                                     @if ($pengumuman->status == '1')
@@ -200,7 +179,7 @@
                                                     <button class="btn btn-secondary"
                                                         onclick="stepper3.previous()">Kembali</button>
                                                     <button class="btn btn-primary"
-                                                        onclick="stepper3.next()">Selanjutnya</button>
+                                                        id="save">Selanjutnya</button>
                                                 </div>
                                                 <div id="test-nlf-3" role="tabpanel"
                                                     class="bs-stepper-pane fade text-center"
@@ -242,7 +221,7 @@
                     }
                 });
                 $.ajax({
-                    url: "/herregistrasi",
+                    url: "herregistrasi",
                     type: 'POST',
                     processData: false,
                     contentType: false,
@@ -267,58 +246,4 @@
         })
 
     </script>
-    {{-- <script>
-        var stepper1
-        var stepper2
-        var stepper3
-        var stepper4
-        var stepperForm
-
-        document.addEventListener('DOMContentLoaded', function () {
-        stepper1 = new Stepper(document.querySelector('#stepper1'))
-        stepper2 = new Stepper(document.querySelector('#stepper2'), {
-            linear: false
-        })
-        stepper3 = new Stepper(document.querySelector('#stepper3'), {
-            linear: false,
-            animation: true
-        })
-        stepper4 = new Stepper(document.querySelector('#stepper4'))
-
-        var stepperFormEl = document.querySelector('#stepperForm')
-        stepperForm = new Stepper(stepperFormEl, {
-            animation: true
-        })
-
-        var btnNextList = [].slice.call(document.querySelectorAll('.btn-next-form'))
-        var stepperPanList = [].slice.call(stepperFormEl.querySelectorAll('.bs-stepper-pane'))
-        var inputMailForm = document.getElementById('inputMailForm')
-        var inputPasswordForm = document.getElementById('inputPasswordForm')
-        var form = stepperFormEl.querySelector('.bs-stepper-content form')
-
-        btnNextList.forEach(function (btn) {
-            btn.addEventListener('click', function () {
-            stepperForm.next()
-            })
-        })
-
-        stepperFormEl.addEventListener('show.bs-stepper', function (event) {
-            form.classList.remove('was-validated')
-            var nextStep = event.detail.indexStep
-            var currentStep = nextStep
-
-            if (currentStep > 0) {
-            currentStep--
-            }
-
-            var stepperPan = stepperPanList[currentStep]
-
-            if ((stepperPan.getAttribute('id') === 'test-form-1' && !inputMailForm.value.length)
-            || (stepperPan.getAttribute('id') === 'test-form-2' && !inputPasswordForm.value.length)) {
-            event.preventDefault()
-            form.classList.add('was-validated')
-            }
-        })
-        })
-    </script> --}}
 @endpush

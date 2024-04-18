@@ -57,7 +57,7 @@
                     <input type="file" class="image-preview-filepond @error('file_pembayaran') is-invalid @enderror" id="file_pembayaran" name="file_pembayaran">
                     <small>File bertipe jpg/jpeg/png, maksimal berukuran 2MB</small>
                 </div>
-                <input type="hidden" name="nominal_pendaftaran" id="nominal_pendaftaran" value="{{ $config->biaya_pendaftaran }}">
+                <input type="hidden" name="nominal_pendaftaran" id="nominal_pendaftaran" value="{{ $config->biaya_herregistrasi }}">
                 <div class="col-md-4">
                     <label for="tgl_bayar">Tanggal Pembayaran</label>
                 </div>
@@ -71,6 +71,9 @@
 <div class="card m-3">
     <div class="card-body" style="text-align: left;">
         <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+        <input type="hidden" name="pendaftaran_id" value="{{ $pengumuman->id }}">
+        <input type="hidden" name="statusmahasiswa_id" value="1">
+        <input type="hidden" name="prodi_id" value="{{ $pengumuman->prodi_id }}">
         <h4 class="card-title">Biodata Diri</h4>
         <div class="row">
             <div class="col-md-4">
@@ -116,6 +119,17 @@
                     value="{{ $pengumuman->email }}" readonly>
             </div>
             <div class="col-md-4">
+                <label for="negara_id">Kewarganegaraan</label>
+            </div>
+            <div class="col-md-8 form-group">
+                <select class="form-select select2 @error('negara_id') is-invalid @enderror" id="negara_id" name="negara_id">
+                    <option value="">-- Pilih Kewarganegaraan --</option>
+                    @foreach ($negaras as $ng)
+                        <option value="{{ $ng->id }}">{{ $ng->name }} ({{ $ng->code }})</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-md-4">
                 <label for="agama_id">Agama</label>
             </div>
             <div class="col-md-8 form-group">
@@ -123,6 +137,100 @@
                     <option value="">-- Pilih Agama --</option>
                     @foreach ($agamas as $ag)
                         <option value="{{ $ag->id }}">{{ $ag->agama }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label for="nik">NIK</label>
+            </div>
+            <div class="col-md-8 form-group">
+                <input type="text" id="nik" class="form-control @error('nik') is-invalid @enderror" name="nik"
+                    value="{{ $pengumuman->nik }}" readonly>
+            </div>
+            <div class="col-md-4">
+                <label for="nisn">NISN</label>
+            </div>
+            <div class="col-md-8 form-group">
+                <input type="text" id="nisn" class="form-control @error('nisn') is-invalid @enderror" name="nisn"
+                    value="{{ $pengumuman->nisn }}" readonly>
+            </div>
+            <div class="col-md-4">
+                <label for="alamat">Alamat</label>
+            </div>
+            <div class="col-md-8 form-group">
+                <input type="text" id="alamat" class="form-control @error('alamat') is-invalid @enderror" name="alamat"
+                    value="{{ $pengumuman->alamat }}" readonly>
+            </div>
+            <div class="col-md-4">
+                <label for="provinsi_id">Provinsi</label>
+            </div>
+            <div class="col-md-8 form-group">
+                <select class="form-select select2 @error('provinsi_id') is-invalid @enderror" id="provinsi_id" name="provinsi_id">
+                    <option value="{{ $pengumuman->provinsi_id }}">{{ $pengumuman->provinsi->nama_provinsi }}</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label for="kota_id">Kota / Kabupaten</label>
+            </div>
+            <div class="col-md-8 form-group">
+                <select class="form-select select2 @error('kota_id') is-invalid @enderror" id="kota_id" name="kota_id">
+                    <option value="{{ $pengumuman->kota_id }}">{{ $pengumuman->kota->nama_kota }}</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label for="kota_id">Kota / Kabupaten</label>
+            </div>
+            <div class="col-md-8 form-group">
+                <select class="form-select select2 @error('kecamatan_id') is-invalid @enderror" id="kecamatan_id" name="kecamatan_id">
+                    <option value="{{ $pengumuman->kecamatan_id }}">{{ $pengumuman->kecamatan->nama_kecamatan }}</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label for="kelurahan_id">Kelurahan</label>
+            </div>
+            <div class="col-md-8 form-group">
+                <select class="form-select select2 @error('kelurahan_id') is-invalid @enderror" id="kelurahan_id" name="kelurahan_id">
+                    <option value="{{ $pengumuman->kelurahan_id }}">{{ $pengumuman->kelurahan->nama_kelurahan }}</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label for="kode_pos">Kodepos / Dusun / RT / RW</label>
+            </div>
+            <div class="col-md-2 form-group">
+                <input type="text" id="kode_pos" class="form-control @error('kode_pos') is-invalid @enderror" name="kode_pos"
+                    value="{{ $pengumuman->kode_pos }}" readonly>
+            </div>
+            <div class="col-md-2 form-group">
+                <input type="text" id="dusun" class="form-control @error('dusun') is-invalid @enderror" name="dusun"
+                    value="{{ $pengumuman->dusun }}" readonly>
+            </div>
+            <div class="col-md-2 form-group">
+                <input type="text" id="rt" class="form-control @error('rt') is-invalid @enderror" name="rt"
+                    value="{{ $pengumuman->rt }}" readonly>
+            </div>
+            <div class="col-md-2 form-group">
+                <input type="text" id="rw" class="form-control @error('rw') is-invalid @enderror" name="rw"
+                    value="{{ $pengumuman->rw }}" readonly>
+            </div>
+            <div class="col-md-4">
+                <label for="jenistinggal_id">Jenis Tinggal</label>
+            </div>
+            <div class="col-md-8 form-group">
+                <select class="form-select select2 @error('jenistinggal_id') is-invalid @enderror" id="jenistinggal_id" name="jenistinggal_id">
+                    <option value="">-- Pilih Jenis Tinggal --</option>
+                    @foreach ($jenistinggals as $jt)
+                        <option value="{{ $jt->id }}">{{ $jt->nama_jenis_tinggal }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label for="transportasi_id">Transportasi</label>
+            </div>
+            <div class="col-md-8 form-group">
+                <select class="form-select select2 @error('transportasi_id') is-invalid @enderror" id="transportasi_id" name="transportasi_id">
+                    <option value="">-- Pilih Transportasi --</option>
+                    @foreach ($transportasis as $tp)
+                        <option value="{{ $tp->id }}">{{ $tp->nama_transportasi }}</option>
                     @endforeach
                 </select>
             </div>
