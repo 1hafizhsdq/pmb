@@ -88,6 +88,11 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
+        $crd = CredentialApps::check();
+        if($crd == false){
+            return back();
+        }
+        
         $loginField = $request->input($this->username());
         $credentials = [
             $this->username() => $loginField,
@@ -102,11 +107,11 @@ class LoginController extends Controller
                 $user = Auth::user();
                 if ($user->is_active != 1) {
                     Auth::logout();
-                    return redirect()->route('login')->with('error', 'Akun Anda tidak aktif. Silakan hubungi administrator.');
+                    return redirect()->route('login')->with('message', 'Akun Anda tidak aktif. Silakan hubungi administrator.');
                 }
                 if (!$user->hasRole('pendaftar')) {
                     Auth::logout();
-                    return redirect()->route('login')->with('error', 'Maaf, Anda tidak diizinkan untuk masuk.');
+                    return redirect()->route('login')->with('message', 'Maaf, Anda tidak diizinkan untuk masuk karena telah terdaftar sebagai civitas akademika STAINUPA.');
                 }
                 return redirect()->intended('/');
             }
@@ -114,16 +119,16 @@ class LoginController extends Controller
             $user = Auth::user();
             if ($user->is_active != 1) {
                 Auth::logout();
-                return redirect()->route('login')->with('error', 'Akun Anda tidak aktif. Silakan hubungi administrator.');
+                return redirect()->route('login')->with('message', 'Akun Anda tidak aktif. Silakan hubungi administrator.');
             }
             if (!$user->hasRole('pendaftar')) {
                 Auth::logout();
-                return redirect()->route('login')->with('error', 'Maaf, Anda tidak diizinkan untuk masuk.');
+                return redirect()->route('login')->with('message', 'Maaf, Anda tidak diizinkan untuk masuk karena telah terdaftar sebagai civitas akademika STAINUPA.');
             }
             return redirect()->intended('/');
         }
 
-        return redirect()->route('login')->with('error', 'Email atau username dan password salah.');
+        return redirect()->route('login')->with('message', 'Email atau username dan password salah.');
     }
 
     public function logout(Request $request)
