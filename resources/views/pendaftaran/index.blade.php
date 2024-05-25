@@ -462,7 +462,7 @@
                 success: function (result) {
                     var data = '<option value="">-- Pilih Kecamatan --</option>'
                     $.each(result, function (key, val) {
-                        data += '<option value="'+val.id+'">'+val.nama_kecamatan+'</option>'
+                        data += '<option valie="'+val.id+'">'+val.name_kecamatan+'</option>'
                     });
                     $('#kecamatan_id').html(data);
                 },
@@ -474,11 +474,11 @@
         }).on('change','#kecamatan_id',function(){
             var id = $(this).val();
 
-            // $.ajaxSetup({
-            //     headers: {
-            //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            //     }
-            // });
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
             $.ajax({
                 url: "/kelurahan/"+id,
                 type: 'GET',
@@ -489,10 +489,10 @@
                     });
                     $('#kelurahan_id').html(data);
                 },
-                // complete: function () {
-                //     var newToken = $('meta[name="csrf-token"]').attr('content');
-                //     $('input[name="_token"]').val(newToken);
-                // }
+                complete: function () {
+                    var newToken = $('meta[name="csrf-token"]').attr('content');
+                    $('input[name="_token"]').val(newToken);
+                }
             });
         }).on('change','#kelurahan_id',function(){
             var id = $(this).val();
@@ -503,15 +503,15 @@
             //     }
             // });
             $.ajax({
-                url: "/kodepos/"+id,
+                url: "/kodepose/"+id,
                 type: 'GET',
                 success: function (result) {
                     $('#kode_pos').val(result.kode_pos);
                 },
-                // complete: function () {
-                //     var newToken = $('meta[name="csrf-token"]').attr('content');
-                //     $('input[name="_token"]').val(newToken);
-                // }
+                complete: function () {
+                    var newToken = $('meta[name="csrf-token"]').attr('content');
+                    $('input[name="_token"]').val(newToken);
+                }
             });
         })
     </script>

@@ -2,7 +2,7 @@
 
 @section('title', $title)
 
-@push('css')
+@push('csss')
 @endpush
 
 @section('content')
