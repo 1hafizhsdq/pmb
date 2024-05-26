@@ -125,6 +125,15 @@
                                 <i class="menu-arrow"></i>
                             </a>
                         </li>
+                        <li class="nav-item d-lg-none my-4" style="display: flex;justify-content: center;">
+                            <a class="btn btn-inverse-danger btn-sm" href="{{ route('logout') }}"
+                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                {{ __('Logout') }}
+                            </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
+                        </li>
                     </ul>
                 </div>
             </nav>
