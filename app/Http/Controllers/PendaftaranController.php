@@ -246,8 +246,8 @@ class PendaftaranController extends Controller
                 ]
             );
 
-            // return response()->json([ 'success' => 'Berhasil menyimpan data.']);
-            return redirect('/pendaftaran');
+            return response()->json([ 'success' => 'Berhasil menyimpan data.']);
+            // return redirect('/pendaftaran');
         } catch (\Throwable $th) {
             return response()->json(['errors' => ['Gagal menyimpan data '.$th]]);
             // return redirect('/pendaftaran')->with('error', 'Gagal menyimpan data.');
