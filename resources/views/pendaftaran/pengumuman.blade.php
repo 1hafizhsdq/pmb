@@ -91,61 +91,55 @@
                                                                     {{ $pengumuman->periode->semester }}. </h4>
                                                                 <div class="alert alert-light" role="alert">
                                                                     <div class="row">
-                                                                        <div class="col-4"></div>
-                                                                        <div class="col-4">
-                                                                            <div class="table-responsive">
-                                                                                <table class="table table-hover">
-                                                                                    <tbody>
-                                                                                        <tr>
-                                                                                            <td></td>
-                                                                                            <td
-                                                                                                style="text-align: left;">
-                                                                                                <strong>Nama
-                                                                                                    Lengkap</strong>
-                                                                                            </td>
-                                                                                            <td
-                                                                                                style="text-align: left;">
-                                                                                                {{ $pengumuman->nama }}
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <td></td>
-                                                                                            <td
-                                                                                                style="text-align: left;">
-                                                                                                <strong>Program
-                                                                                                    Studi</strong></td>
-                                                                                            <td
-                                                                                                style="text-align: left;">
-                                                                                                {{ $pengumuman->prodi->nama_prodi }}
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <td></td>
-                                                                                            <td
-                                                                                                style="text-align: left;">
-                                                                                                <strong>Nominal Daftar
-                                                                                                    Ulang</strong></td>
-                                                                                            <td
-                                                                                                style="text-align: left;">
-                                                                                                {{ 'Rp ' . number_format($config->biaya_herregistrasi, 0, ',', '.') }}
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <td></td>
-                                                                                            <td
-                                                                                                style="text-align: left;">
-                                                                                                <strong>Batas Waktu
-                                                                                                    Pendaftaran</strong>
-                                                                                            </td>
-                                                                                            <td
-                                                                                                style="text-align: left;">
-                                                                                                -</td>
-                                                                                        </tr>
-                                                                                    </tbody>
-                                                                                </table>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-4"></div>
+                                                                        <table class="table table-hover">
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                    <td></td>
+                                                                                    <td
+                                                                                        style="text-align: left;">
+                                                                                        <strong>Nama
+                                                                                            Lengkap</strong>
+                                                                                    </td>
+                                                                                    <td
+                                                                                        style="text-align: left;">
+                                                                                        {{ $pengumuman->nama }}
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td></td>
+                                                                                    <td
+                                                                                        style="text-align: left;">
+                                                                                        <strong>Program
+                                                                                            Studi</strong></td>
+                                                                                    <td
+                                                                                        style="text-align: left;">
+                                                                                        {{ $pengumuman->prodi->nama_prodi }}
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td></td>
+                                                                                    <td
+                                                                                        style="text-align: left;">
+                                                                                        <strong>Nominal Daftar
+                                                                                            Ulang</strong></td>
+                                                                                    <td
+                                                                                        style="text-align: left;">
+                                                                                        {{ 'Rp ' . number_format($config->biaya_herregistrasi, 0, ',', '.') }}
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td></td>
+                                                                                    <td
+                                                                                        style="text-align: left;">
+                                                                                        <strong>Batas Waktu
+                                                                                            Pendaftaran Ulang</strong>
+                                                                                    </td>
+                                                                                    <td
+                                                                                        style="text-align: left;">
+                                                                                        {{ $pengumuman->periode->tgl_akhir_herregistrasi ?? '-' }}</td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -163,39 +157,33 @@
                                                                     ditahun berikutnya. Tetap Semangat!</h4>
                                                                 <div class="alert alert-light" role="alert">
                                                                     <div class="row">
-                                                                        <div class="col-4"></div>
-                                                                        <div class="col-4">
-                                                                            <div class="table-responsive">
-                                                                                <table class="table table-hover">
-                                                                                    <tbody>
-                                                                                        <tr>
-                                                                                            <td></td>
-                                                                                            <td
-                                                                                                style="text-align: left;">
-                                                                                                <strong>Nama
-                                                                                                    Lengkap</strong>
-                                                                                            </td>
-                                                                                            <td
-                                                                                                style="text-align: left;">
-                                                                                                {{ $pengumuman->nama }}
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <td></td>
-                                                                                            <td
-                                                                                                style="text-align: left;">
-                                                                                                <strong>Program
-                                                                                                    Studi</strong></td>
-                                                                                            <td
-                                                                                                style="text-align: left;">
-                                                                                                {{ $pengumuman->prodi->nama_prodi }}
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                    </tbody>
-                                                                                </table>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-4"></div>
+                                                                        <table class="table table-hover">
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                    <td></td>
+                                                                                    <td
+                                                                                        style="text-align: left;">
+                                                                                        <strong>Nama
+                                                                                            Lengkap</strong>
+                                                                                    </td>
+                                                                                    <td
+                                                                                        style="text-align: left;">
+                                                                                        {{ $pengumuman->nama }}
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td></td>
+                                                                                    <td
+                                                                                        style="text-align: left;">
+                                                                                        <strong>Program
+                                                                                            Studi</strong></td>
+                                                                                    <td
+                                                                                        style="text-align: left;">
+                                                                                        {{ $pengumuman->prodi->nama_prodi }}
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -215,8 +203,10 @@
                                                             <div class="col"></div>
                                                         </div>
                                                     @endif
-                                                    <button class="btn btn-primary"
-                                                        onclick="stepper3.next()">Selanjutnya</button>
+                                                    @if ($pengumuman->status == 1)
+                                                        <button class="btn btn-primary"
+                                                            onclick="stepper3.next()">Selanjutnya</button>
+                                                    @endif
                                                 </div>
                                                 <div id="test-nlf-2" role="tabpanel" class="bs-stepper-pane fade"
                                                     aria-labelledby="stepper3trigger2">
@@ -226,24 +216,41 @@
                                                                 onclick="stepper3.previous()">Kembali</button>
                                                             <button class="btn btn-primary" id="save">Simpan &
                                                                 Lanjutkan</button>
-                                                        @else
-                                                            <div class="row mb-5">
-                                                                <div class="col"></div>
-                                                                <div class="col-10">
-                                                                    <img style="height: 70px; width: 90px; margin-bottom: 25px;"
-                                                                        src="{{ asset('img') }}/tolak.png"
-                                                                        alt="logo" />
-                                                                    <h2>MOHON DITUNGGU</h2>
-                                                                    <h4>Data Herregistrasi/Daftar Ulang anda telah
-                                                                        tersimpan dan sedang dalam masa proses.</h4>
-                                                                </div>
-                                                                <div class="col"></div>
+                                                    @elseif($herregistrasi->status_verif == '1')
+                                                        <div class="row mb-5">
+                                                            <div class="col"></div>
+                                                            <div class="col-10">
+                                                                <img style="height: 70px; width: 90px; margin-bottom: 25px;"
+                                                                    src="{{ asset('img') }}/pengumuman.png"
+                                                                    alt="logo" />
+                                                                <h2>SELAMAT</h2>
+                                                                <h4>Data Herregistrasi/Daftar Ulang anda telah
+                                                                    terverifikasi</h4>
                                                             </div>
-                                                            <button class="btn btn-secondary"
-                                                                onclick="stepper3.previous()">Kembali</button>
-                                                            <button class="btn btn-primary"
-                                                                onclick="stepper3.next()">Selanjutnya</button>
-                                                        @endif
+                                                            <div class="col"></div>
+                                                        </div>
+                                                        <button class="btn btn-secondary"
+                                                            onclick="stepper3.previous()">Kembali</button>
+                                                        <button class="btn btn-primary"
+                                                            onclick="stepper3.next()">Selanjutnya</button>
+                                                    @else
+                                                        <div class="row mb-5">
+                                                            <div class="col"></div>
+                                                            <div class="col-10">
+                                                                <img style="height: 70px; width: 90px; margin-bottom: 25px;"
+                                                                    src="{{ asset('img') }}/tolak.png"
+                                                                    alt="logo" />
+                                                                <h2>MOHON DITUNGGU</h2>
+                                                                <h4>Data Herregistrasi/Daftar Ulang anda telah
+                                                                    tersimpan dan sedang dalam masa proses.</h4>
+                                                            </div>
+                                                            <div class="col"></div>
+                                                        </div>
+                                                        <button class="btn btn-secondary"
+                                                            onclick="stepper3.previous()">Kembali</button>
+                                                        <button class="btn btn-primary"
+                                                            onclick="stepper3.next()">Selanjutnya</button>
+                                                    @endif
                                                 </div>
                                                 <div id="test-nlf-3" role="tabpanel"
                                                     class="bs-stepper-pane fade text-center"

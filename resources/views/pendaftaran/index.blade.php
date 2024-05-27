@@ -368,7 +368,8 @@
                                                 <div class="alert alert-light-secondary color-secondary mt-2">
                                                     <div class="row">
                                                         <div class="col-md-3">
-                                                            <img id="logo-bca" src="{{ asset('img') }}/bri.png" alt="Logo">
+                                                            {{-- <img id="logo-bca" src="{{ asset('img') }}/bri.png" alt="Logo"> --}}
+                                                            <img style="height: 70px; width: 90px;" src="{{ asset('img') }}/bri.png" alt="logo" />
                                                         </div>
                                                         <div class="col-md-8">
                                                             <h3 class="mt-5">No. Rekening : {{ $config->no_rekening }}</h3>
