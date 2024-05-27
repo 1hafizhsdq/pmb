@@ -463,7 +463,7 @@
                 success: function (result) {
                     var data = '<option value="">-- Pilih Kecamatan --</option>'
                     $.each(result, function (key, val) {
-                        data += '<option valie="'+val.id+'">'+val.name_kecamatan+'</option>'
+                        data += '<option value="'+val.id+'">'+val.nama_kecamatan+'</option>'
                     });
                     $('#kecamatan_id').html(data);
                 },
