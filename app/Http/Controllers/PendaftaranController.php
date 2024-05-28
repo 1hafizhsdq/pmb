@@ -142,8 +142,8 @@ class PendaftaranController extends Controller
         ]);
 
         if ($validator->fails()) {
-            // return response()->json(['errors' => $validator->errors()->all()]);
-            return redirect('/')->withErrors($validator)->withInput();
+            return response()->json(['errors' => $validator->errors()->all()]);
+            // return redirect('/')->withErrors($validator)->withInput();
         }
         
         if(isset($_FILES['file'])){
@@ -177,8 +177,8 @@ class PendaftaranController extends Controller
         $response = json_decode($response);
         curl_close($ch);
         if($response->meta->message != "Berhasil menyimpan data"){
-            // return response()->json(['errors' => ['Gagal upload data']]);
-            return redirect('/pendaftaran')->with('error', 'Gagal menyimpan data.');
+            return response()->json(['errors' => ['Gagal upload data']]);
+            // return redirect('/pendaftaran')->with('error', 'Gagal menyimpan data.');
         }
 
         try {
@@ -246,11 +246,11 @@ class PendaftaranController extends Controller
                 ]
             );
 
-            // return response()->json([ 'success' => 'Berhasil menyimpan data.']);
-            return redirect('/pendaftaran');
+            return response()->json([ 'success' => 'Berhasil menyimpan data.']);
+            // return redirect('/pendaftaran');
         } catch (\Throwable $th) {
-            // return response()->json(['errors' => ['Gagal menyimpan data '.$th]]);
-            return redirect('/pendaftaran')->with('error', 'Gagal menyimpan data.');
+            return response()->json(['errors' => ['Gagal menyimpan data '.$th]]);
+            // return redirect('/pendaftaran')->with('error', 'Gagal menyimpan data.');
         }
     }
 

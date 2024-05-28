@@ -41,8 +41,8 @@
                                                     </ul>
                                                 </div>
                                             @endif
-                                            <form id="form" method="POST" action="/pendaftaran" enctype="multipart/form-data">
-                                            {{-- <form id="form"> --}}
+                                            {{-- <form id="form" method="POST" action="/pendaftaran" enctype="multipart/form-data"> --}}
+                                            <form id="form">
                                                 @csrf
                                                 {{-- Start section Biodata Diri --}}
                                                 <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
@@ -396,7 +396,7 @@
                                                     </div>
                                                 </div>
                                                 {{-- end section pembayaran --}}
-                                                <button id="save" type="submit" class="btn btn-success">
+                                                <button id="save" type="button" class="btn btn-success">
                                                     {{-- <i class="bx bx-check d-block d-sm-none"></i>
                                                     <span class="d-none d-sm-block">Daftar</span> --}}
                                                     Daftar
@@ -514,43 +514,42 @@
                     $('input[name="_token"]').val(newToken);
                 }
             });
-        })
-        // .on('click','#save',function(){
-        //     var form = $('#form')[0],
-        //     data = new FormData(form);
-        //     data.push( { 'name': '_token', 'value': '{{ csrf_token() }}' } );
+        }).on('click','#save',function(){
+            var form = $('#form')[0],
+            data = new FormData(form);
+            // data.push( { 'name': '_token', 'value': '{{ csrf_token() }}' } );
 
-        //     $.ajaxSetup({
-        //         headers: {
-        //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        //         }
-        //     });
-        //     $.ajax({
-        //         url: "{{route('pendaftaran.store')}}",
-        //         method: "POST",
-        //         processData: false,
-        //         contentType: false,
-        //         data: data,
-        //         beforeSend: function() {
-        //             $('#save').css('display','none');
-        //             $('#loading').css('display','block');
-        //         },
-        //         success: function(result) {
-        //             if (result.success) {
-        //                 successMsg(result.success)
-        //                 $('#save').css('display','block');
-        //                 $('#loading').css('display','none');
-        //                 setInterval(function () {
-        //                     window.location.reload();
-        //                 }, 1000);
-        //             }else{
-        //                 errorMsg(result.errors)
-        //                 $('#save').css('display','block');
-        //                 $('#loading').css('display','none');
-        //             }
-        //         },
-        //     });
-        // });
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                url: "{{route('pendaftaran.store')}}",
+                method: "POST",
+                processData: false,
+                contentType: false,
+                data: data,
+                beforeSend: function() {
+                    $('#save').css('display','none');
+                    $('#loading').css('display','block');
+                },
+                success: function(result) {
+                    if (result.success) {
+                        successMsg(result.success)
+                        $('#save').css('display','block');
+                        $('#loading').css('display','none');
+                        setInterval(function () {
+                            window.location.reload();
+                        }, 1000);
+                    }else{
+                        errorMsg(result.errors)
+                        $('#save').css('display','block');
+                        $('#loading').css('display','none');
+                    }
+                },
+            });
+        });
     </script>
 @endpush
 
