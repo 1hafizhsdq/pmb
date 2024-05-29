@@ -147,14 +147,14 @@
                                                     </div>
                                                     <div class="col-md-8 form-group">
                                                         <input type="text" id="nik" class="form-control @error('nik') is-invalid @enderror" name="nik"
-                                                            onkeypress="return isNumber(event)">
+                                                            onkeypress="return isNumber(event)" maxlength="16">
                                                     </div>
                                                     <div class="col-md-4">
                                                         <label for="nisn">Nomor Induk Siswa Nasional (NISN)</label>
                                                     </div>
                                                     <div class="col-md-8 form-group">
                                                         <input type="text" id="nisn" class="form-control @error('nisn') is-invalid @enderror" name="nisn"
-                                                            onkeypress="return isNumber(event)">
+                                                            onkeypress="return isNumber(event)" maxlength="10">
                                                     </div>
                                                     <div class="col-md-4">
                                                         <label for="jenis_sekolah">Jenis Sekolah</label>
@@ -219,7 +219,7 @@
                                                     </div>
                                                     <div class="col-md-8 form-group">
                                                         <input type="text" id="nik_ayah" class="form-control" name="nik_ayah"
-                                                            onkeypress="return isNumber(event)">
+                                                            onkeypress="return isNumber(event)" maxlength="16">
                                                     </div>
                                                     <div class="col-md-4">
                                                         <label for="alamat_ayah">Alamat</label>
@@ -285,7 +285,7 @@
                                                     </div>
                                                     <div class="col-md-8 form-group">
                                                         <input type="text" id="nik_ibu" class="form-control" name="nik_ibu"
-                                                            onkeypress="return isNumber(event)">
+                                                            onkeypress="return isNumber(event)" maxlength="16">
                                                     </div>
                                                     <div class="col-md-4">
                                                         <label for="alamat_ibu">Alamat</label>
@@ -504,7 +504,7 @@
             //     }
             // });
             $.ajax({
-                url: "/kodepose/"+id,
+                url: "/kodepos/"+id,
                 type: 'GET',
                 success: function (result) {
                     $('#kode_pos').val(result.kode_pos);
@@ -517,6 +517,7 @@
         }).on('click','#save',function(){
             var form = $('#form')[0],
             data = new FormData(form);
+            // data.push( { 'name': '_token', 'value': '{{ csrf_token() }}' } );
 
             $.ajaxSetup({
                 headers: {
@@ -524,7 +525,7 @@
                 }
             });
             $.ajax({
-                url: "{{route('pendaftaran')}}",
+                url: "{{route('pendaftaran.store')}}",
                 method: "POST",
                 processData: false,
                 contentType: false,
