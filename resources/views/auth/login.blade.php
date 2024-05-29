@@ -26,48 +26,56 @@
               @if (Session::has('message'))
                 <div class="alert alert-danger">{{ Session::get('message') }}</div>
               @endif
-              <form class="pt-3" method="POST" action="{{ route('login') }}">
-                @csrf
-                <div class="form-group">
-                  <label for="username">Email</label>
-                  @error('username')
-                    <span class="text-danger">
-                        *<strong>{{ $message }}</strong>
-                    </span>
-                  @enderror
-                  <div class="input-group">
-                    <input type="text" class="form-control form-control-lg border-left-0 @error('username') is-invalid @enderror" id="username" name="username" placeholder="Email" value="{{ old('username') }}">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="password">Password</label>
-                  @error('password')
-                    <span class="text-danger" role="alert">
-                        *<strong>{{ $message }}</strong>
-                    </span>
-                  @enderror
-                  <div class="input-group">
-                    <input type="password" class="form-control form-control-lg border-left-0 @error('password') is-invalid @enderror" id="password" name="password" placeholder="Password">                        
-                  </div>
-                </div>
-                <div class="my-2 d-flex justify-content-between align-items-center">
-                  <div class="form-check">
-                    <label class="form-check-label text-muted">
-                      <input type="checkbox" class="form-check-input" value="" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-                      Ingat Saya
-                    </label>
-                  </div>
-                  @if(Route::has('password.request'))
-                    <a href="{{ route('password.request') }}" class="auth-link text-black">Lupa password?</a>
-                  @endif
-                </div>
-                <div class="my-3">
-                  <button style="color: #fff;background-color: #076b37;border-color: #000000;" type="submit" class="btn btn-block btn-success btn-lg font-weight-medium auth-form-btn">LOGIN</button>
-                </div>
-                <div class="text-center mt-4 font-weight-light">
-                  Belum memiliki akun? <a href="{{ route('register') }}" class="text-primary">Daftar disini</a>
-                </div>
-              </form>
+              @if ($periode->tgl_awal_pmb == null)
+                <div class="alert alert-danger">PMB PERIODE {{ $periode->nama_periode }} {{ $periode->semester }} BELUM DIBUKA</div>
+              @else
+                @if (strtotime(date('Y-m-d')) >= strtotime($periode->tgl_awal_pmb) && strtotime(date('Y-m-d')) <= strtotime($periode->tgl_akhir_pmb))
+                  <form class="pt-3" method="POST" action="{{ route('login') }}">
+                    @csrf
+                    <div class="form-group">
+                      <label for="username">Email</label>
+                      @error('username')
+                        <span class="text-danger">
+                            *<strong>{{ $message }}</strong>
+                        </span>
+                      @enderror
+                      <div class="input-group">
+                        <input type="text" class="form-control form-control-lg border-left-0 @error('username') is-invalid @enderror" id="username" name="username" placeholder="Email" value="{{ old('username') }}">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="password">Password</label>
+                      @error('password')
+                        <span class="text-danger" role="alert">
+                            *<strong>{{ $message }}</strong>
+                        </span>
+                      @enderror
+                      <div class="input-group">
+                        <input type="password" class="form-control form-control-lg border-left-0 @error('password') is-invalid @enderror" id="password" name="password" placeholder="Password">                        
+                      </div>
+                    </div>
+                    <div class="my-2 d-flex justify-content-between align-items-center">
+                      <div class="form-check">
+                        <label class="form-check-label text-muted">
+                          <input type="checkbox" class="form-check-input" value="" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+                          Ingat Saya
+                        </label>
+                      </div>
+                      @if(Route::has('password.request'))
+                        <a href="{{ route('password.request') }}" class="auth-link text-black">Lupa password?</a>
+                      @endif
+                    </div>
+                    <div class="my-3">
+                      <button style="color: #fff;background-color: #076b37;border-color: #000000;" type="submit" class="btn btn-block btn-success btn-lg font-weight-medium auth-form-btn">LOGIN</button>
+                    </div>
+                    <div class="text-center mt-4 font-weight-light">
+                      Belum memiliki akun? <a href="{{ route('register') }}" class="text-primary">Daftar disini</a>
+                    </div>
+                  </form>
+                @else
+                  <div class="alert alert-danger">PMB PERIODE {{ $periode->nama_periode }} {{ $periode->semester }} TELAH BERAKHIR</div>
+                @endif
+              @endif
             </div>
           </div>
           <div class="col-lg-6 login-half-bg d-flex flex-row">

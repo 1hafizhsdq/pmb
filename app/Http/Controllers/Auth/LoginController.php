@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Helpers\CredentialApps;
 use App\Http\Controllers\Controller;
+use App\Models\Periode;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -70,6 +71,12 @@ class LoginController extends Controller
 
     //     return Auth::attempt([$field => $credentials['email'], 'password' => $credentials['password']]);
     // }
+
+    public function showLoginForm()
+    {
+        $data['periode'] = Periode::where('is_active',1)->first();
+        return view('auth.login',$data);
+    }
 
     public function username()
     {
