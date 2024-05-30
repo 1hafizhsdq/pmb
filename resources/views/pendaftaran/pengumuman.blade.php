@@ -308,7 +308,7 @@
                                                                         <strong>Bukti Bayar</strong>
                                                                     </td>
                                                                     <td>
-                                                                        <a href="//siakad.test/herregistrasi/{{ $herregistrasi->bukti_bayar }}" target="_blank" alt="">Lihat Dokumen</a>
+                                                                        <a href="//siakad.stainupa.ac.id/herregistrasi/{{ $herregistrasi->bukti_bayar }}" target="_blank" alt="">Lihat Dokumen</a>
                                                                     </td>
                                                                 </tr>
                                                             </tbody>
