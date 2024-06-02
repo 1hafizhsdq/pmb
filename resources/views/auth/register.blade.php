@@ -29,6 +29,7 @@
           height: 100%;
       }
   </style>
+  {!! ReCaptcha::htmlScriptTagJsApi() !!}
 </head>
 
 <body>
@@ -97,6 +98,14 @@
                   <div class="input-group">
                     <input type="password" class="form-control form-control-lg border-left-0 @error('password') is-invalid @enderror" name="password_confirmation" placeholder="Confirm Password">                        
                   </div>
+                </div>
+                <div class="col-12">
+                  @error('g-recaptcha-response')
+                    <span class="text-danger">
+                        *<strong>{{ $message }}</strong>
+                    </span>
+                  @enderror
+                  {!! htmlFormSnippet() !!}
                 </div>
                 <div class="mt-3">
                   <button style="color: #fff;background-color: #076b37;border-color: #000000;" class="btn btn-block btn-success btn-lg font-weight-medium auth-form-btn">Register</button>

@@ -53,6 +53,7 @@ class RegisterController extends Controller
             'telp' => ['required', 'unique:users,telp'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'g-recaptcha-response' => ['required','recaptcha'],
         ]);
     }
 

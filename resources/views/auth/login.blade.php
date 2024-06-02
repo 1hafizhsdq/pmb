@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="{{ asset('template') }}/vendors/base/vendor.bundle.base.css">
   <link rel="stylesheet" href="{{ asset('template') }}/css/style.css">
   <link rel="shortcut icon" href="{{ asset('img') }}/logo.png" />
+  {!! ReCaptcha::htmlScriptTagJsApi() !!}
 </head>
 
 <body>
@@ -23,8 +24,8 @@
               </div>
               <h2>PENDAFTARAN MAHASISWA BARU</h2>
               <h6 class="font-weight-light">SILAHKAN LOGIN</h6>
-              @if (Session::has('message'))
-                <div class="alert alert-danger">{{ Session::get('message') }}</div>
+              @if (Session::has('errors'))
+                <div class="alert alert-danger">{{ Session::get('errors') }}</div>
               @endif
               @if ($periode->tgl_awal_pmb == null)
                 <div class="alert alert-danger">PMB PERIODE {{ $periode->nama_periode }} {{ $periode->semester }} BELUM DIBUKA</div>
@@ -64,6 +65,9 @@
                       @if(Route::has('password.request'))
                         <a href="{{ route('password.request') }}" class="auth-link text-black">Lupa password?</a>
                       @endif
+                    </div>
+                    <div class="col-12">
+                      {!! htmlFormSnippet() !!}
                     </div>
                     <div class="my-3">
                       <button style="color: #fff;background-color: #076b37;border-color: #000000;" type="submit" class="btn btn-block btn-success btn-lg font-weight-medium auth-form-btn">LOGIN</button>

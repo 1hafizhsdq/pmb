@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class LoginController extends Controller
 {
@@ -95,10 +96,23 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        $crd = CredentialApps::check();
-        if($crd == false){
-            return back();
+        $validator = Validator::make($request->all(), [
+            $this->username() => 'required|string',
+            'password' => 'required|string',
+            'g-recaptcha-response' => 'required|recaptcha',
+        ], [
+            'g-recaptcha-response.required' => 'Please complete the reCAPTCHA to proceed.',
+            'g-recaptcha-response.recaptcha' => 'reCAPTCHA validation failed, please try again.',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->route('login')->with('message', $validator->errors()->all()[0]);
         }
+        
+        // $crd = CredentialApps::check();
+        // if($crd == false){
+        //     return back();
+        // }
         
         $loginField = $request->input($this->username());
         $credentials = [
