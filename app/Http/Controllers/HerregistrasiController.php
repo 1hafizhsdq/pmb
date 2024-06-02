@@ -75,7 +75,7 @@ class HerregistrasiController extends Controller
         );
 
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, 'http://siakad.test/api/herregistrasi-store-file');
+        curl_setopt($ch, CURLOPT_URL, 'https://siakad.stainupa.ac.id/api/herregistrasi-store-file');
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $postDokData);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
