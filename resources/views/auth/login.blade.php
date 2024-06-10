@@ -27,10 +27,9 @@
               @if (Session::has('errors'))
                 <div class="alert alert-danger">{{ Session::get('errors') }}</div>
               @endif
-              @if ($periode->tgl_awal_pmb == null)
-                <div class="alert alert-danger">PMB PERIODE {{ $periode->nama_periode }} {{ $periode->semester }} BELUM DIBUKA</div>
+              @if ($form_dibuka == false)
+                <div class="alert alert-danger">{{ $status_message }}</div>
               @else
-                @if (strtotime(date('Y-m-d')) >= strtotime($periode->tgl_awal_pmb) && strtotime(date('Y-m-d')) <= strtotime($periode->tgl_akhir_pmb))
                   <form class="pt-3" method="POST" action="{{ route('login') }}">
                     @csrf
                     <div class="form-group">
@@ -76,9 +75,6 @@
                       Belum memiliki akun? <a href="{{ route('register') }}" class="text-primary">Daftar disini</a>
                     </div>
                   </form>
-                @else
-                  <div class="alert alert-danger">PMB PERIODE {{ $periode->nama_periode }} {{ $periode->semester }} TELAH BERAKHIR</div>
-                @endif
               @endif
             </div>
           </div>

@@ -6,15 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Periode extends Model
+class Pmb extends Model
 {
     use HasFactory,SoftDeletes;
 
-    protected $dates = ['deleted_at'];
-
     protected $guarded = [];
-
-    public function pmb(){
-        return $this->hasMany(Pmb::class);
-    }
 }
