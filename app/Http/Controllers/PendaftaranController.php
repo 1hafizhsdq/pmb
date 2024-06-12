@@ -13,6 +13,7 @@ use App\Models\Kelurahan;
 use App\Models\Kota;
 use App\Models\Negara;
 use App\Models\Ortu;
+use App\Models\Pekerjaan;
 use App\Models\Pendaftaran;
 use App\Models\Periode;
 use App\Models\Prodi;
@@ -39,6 +40,7 @@ class PendaftaranController extends Controller
             ->first();
         $data['prodi'] = Prodi::get();
         $data['provinsis'] = Provinsi::all();
+        $data['pekerjaans'] = Pekerjaan::all();
         $data['config'] = Aplikasi::find(1);
 
         if($data['user']->pendaftaran->isEmpty()){

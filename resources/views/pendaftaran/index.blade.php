@@ -249,7 +249,12 @@
                                                         <label for="pekerjaan_ayah">Pekerjaan</label>
                                                     </div>
                                                     <div class="col-md-8 form-group">
-                                                        <input type="text" id="pekerjaan_ayah" class="form-control" name="pekerjaan_ayah">
+                                                        <select class="form-select select2" id="pekerjaan_ayah" name="pekerjaan_ayah">
+                                                            <option value="">-- Pilih Pekerjaan --</option>
+                                                            @foreach ($pekerjaans as $pk)
+                                                                <option value="{{ $pk->nama_pekerjaan }}">{{ $pk->nama_pekerjaan }}</option>
+                                                            @endforeach
+                                                        </select>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <label for="penghasilan">Penghasilan</label>
@@ -315,7 +320,12 @@
                                                         <label for="pekerjaan_ibu">Pekerjaan</label>
                                                     </div>
                                                     <div class="col-md-8 form-group">
-                                                        <input type="text" id="pekerjaan_ibu" class="form-control" name="pekerjaan_ibu">
+                                                        <select class="form-select select2" id="pekerjaan_ibu" name="pekerjaan_ibu">
+                                                            <option value="">-- Pilih Pekerjaan --</option>
+                                                            @foreach ($pekerjaans as $pk)
+                                                                <option value="{{ $pk->nama_pekerjaan }}">{{ $pk->nama_pekerjaan }}</option>
+                                                            @endforeach
+                                                        </select>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <label for="penghasilan">Penghasilan</label>
