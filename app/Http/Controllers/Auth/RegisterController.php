@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Periode;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -38,6 +40,43 @@ class RegisterController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
+    }
+
+    public function showRegistrationForm()
+    {
+        $data['periode'] = Periode::with('pmb')->where('is_active',1)->first();
+        $tanggal_saat_ini = Carbon::now();
+        $data['form_dibuka'] = false;
+        $data['tgl_melewati_semua_pmb'] = true;
+        $data['status_message'] = '';
+
+        if ($data['periode'] && $data['periode']->pmb->isNotEmpty()) {
+            foreach ($data['periode']->pmb as $p) {
+                $tgl_mulai_pmb = Carbon::createFromFormat('Y-m-d', $p->tgl_awal_pmb);
+                $tgl_selesai_pmb = Carbon::createFromFormat('Y-m-d', $p->tgl_akhir_pmb);
+                $gelombang = $p->gelombang;
+    
+                if ($tanggal_saat_ini->between($tgl_mulai_pmb, $tgl_selesai_pmb)) {
+                    $data['form_dibuka'] = true;
+                    break;
+                }
+    
+                if ($tanggal_saat_ini->lt($tgl_mulai_pmb)) {
+                    $data['tgl_melewati_semua_pmb'] = false;
+                }
+            }
+            if (! $data['form_dibuka']) {
+                if ($data['tgl_melewati_semua_pmb']) {
+                    $data['status_message'] = 'PMB Periode '.$data['periode']->nama_periode.' '.$data['periode']->semester.' Gelombang '.$gelombang.' sudah berakhir.';
+                } else {
+                    $data['status_message'] = 'PMB Periode '.$data['periode']->nama_periode.' '.$data['periode']->semester.' Gelombang '.$gelombang.' belum dimulai.';
+                }
+            }
+        } else {
+            $data['status_message'] = 'PMB periode '.$data['periode']->nama_periode.' '.$data['periode']->semester.' Belum tersedia.';
+        }
+
+        return view('auth.register',$data);
     }
 
     /**

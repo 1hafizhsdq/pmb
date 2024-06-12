@@ -24,8 +24,8 @@
               </div>
               <h2>PENDAFTARAN MAHASISWA BARU</h2>
               <h6 class="font-weight-light">SILAHKAN LOGIN</h6>
-              @if (Session::has('errors'))
-                <div class="alert alert-danger">{{ Session::get('errors') }}</div>
+              @if (Session::has('message'))
+                <div class="alert alert-danger">{{ Session::get('message') }}</div>
               @endif
               @if ($form_dibuka == false)
                 <div class="alert alert-danger">{{ $status_message }}</div>

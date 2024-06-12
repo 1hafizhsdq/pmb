@@ -47,73 +47,77 @@
               @if (Session::has('message'))
                 <div class="alert alert-danger">{{ Session::get('message') }}</div>
               @endif
-              <form class="pt-3" method="POST" action="{{ route('register') }}">
-                @csrf
-                @error('email')
-                    <span class="text-danger">
-                        *<strong>{{ $message }}</strong>
-                    </span>
-                @enderror
-                <div class="form-group">
-                  <label>Email</label>
-                  <div class="input-group">
-                    <input type="text" class="form-control form-control-lg border-left-0 @error('email') is-invalid @enderror" placeholder="Email" name="email" value="{{ old('email') }}" placeholder="Email">
-                  </div>
-                </div>
-                @error('name')
-                    <span class="text-danger">
-                        *<strong>{{ $message }}</strong>
-                    </span>
-                @enderror
-                <div class="form-group">
-                  <label>Nama Lengkap</label>
-                  <div class="input-group">
-                    <input type="text" class="form-control form-control-lg border-left-0 @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" placeholder="Nama Lengkap">
-                  </div>
-                </div>
-                @error('telp')
-                    <span class="text-danger">
-                        *<strong>{{ $message }}</strong>
-                    </span>
-                @enderror
-                <div class="form-group">
-                  <label>Telp (WA)</label>
-                  <div class="input-group">
-                    <input type="text" class="form-control form-control-lg border-left-0 @error('telp') is-invalid @enderror" name="telp" value="{{ old('telp') }}" placeholder="Telpon (WA)" onkeypress="return isNumber(event)">
-                  </div>
-                </div>
-                @error('password')
-                    <span class="text-danger">
-                        *<strong>{{ $message }}</strong>
-                    </span>
-                @enderror
-                <div class="form-group">
-                  <label>Password</label>
-                  <div class="input-group">
-                    <input type="password" class="form-control form-control-lg border-left-0 @error('password') is-invalid @enderror" name="password" placeholder="Password">                        
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label>Ulangi Password</label>
-                  <div class="input-group">
-                    <input type="password" class="form-control form-control-lg border-left-0 @error('password') is-invalid @enderror" name="password_confirmation" placeholder="Confirm Password">                        
-                  </div>
-                </div>
-                <div class="col-12">
-                  @error('g-recaptcha-response')
-                    <span class="text-danger">
-                        *<strong>{{ $message }}</strong>
-                    </span>
+              @if ($form_dibuka == false)
+                <div class="alert alert-danger">{{ $status_message }}</div>
+              @else
+                <form class="pt-3" method="POST" action="{{ route('register') }}">
+                  @csrf
+                  @error('email')
+                      <span class="text-danger">
+                          *<strong>{{ $message }}</strong>
+                      </span>
                   @enderror
-                  {!! htmlFormSnippet() !!}
-                </div>
-                <div class="mt-3">
-                  <button style="color: #fff;background-color: #076b37;border-color: #000000;" class="btn btn-block btn-success btn-lg font-weight-medium auth-form-btn">Register</button>
-                </div>
-                <div class="text-center mt-4 font-weight-light">
-                  Sudah memiliki akun? <a href="/login" class="text-primary">Login</a>
-                </div>
-              </form>
+                  <div class="form-group">
+                    <label>Email</label>
+                    <div class="input-group">
+                      <input type="text" class="form-control form-control-lg border-left-0 @error('email') is-invalid @enderror" placeholder="Email" name="email" value="{{ old('email') }}" placeholder="Email">
+                    </div>
+                  </div>
+                  @error('name')
+                      <span class="text-danger">
+                          *<strong>{{ $message }}</strong>
+                      </span>
+                  @enderror
+                  <div class="form-group">
+                    <label>Nama Lengkap</label>
+                    <div class="input-group">
+                      <input type="text" class="form-control form-control-lg border-left-0 @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" placeholder="Nama Lengkap">
+                    </div>
+                  </div>
+                  @error('telp')
+                      <span class="text-danger">
+                          *<strong>{{ $message }}</strong>
+                      </span>
+                  @enderror
+                  <div class="form-group">
+                    <label>Telp (WA)</label>
+                    <div class="input-group">
+                      <input type="text" class="form-control form-control-lg border-left-0 @error('telp') is-invalid @enderror" name="telp" value="{{ old('telp') }}" placeholder="Telpon (WA)" onkeypress="return isNumber(event)">
+                    </div>
+                  </div>
+                  @error('password')
+                      <span class="text-danger">
+                          *<strong>{{ $message }}</strong>
+                      </span>
+                  @enderror
+                  <div class="form-group">
+                    <label>Password</label>
+                    <div class="input-group">
+                      <input type="password" class="form-control form-control-lg border-left-0 @error('password') is-invalid @enderror" name="password" placeholder="Password">                        
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label>Ulangi Password</label>
+                    <div class="input-group">
+                      <input type="password" class="form-control form-control-lg border-left-0 @error('password') is-invalid @enderror" name="password_confirmation" placeholder="Confirm Password">                        
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    @error('g-recaptcha-response')
+                      <span class="text-danger">
+                          *<strong>{{ $message }}</strong>
+                      </span>
+                    @enderror
+                    {!! htmlFormSnippet() !!}
+                  </div>
+                  <div class="mt-3">
+                    <button style="color: #fff;background-color: #076b37;border-color: #000000;" class="btn btn-block btn-success btn-lg font-weight-medium auth-form-btn">Register</button>
+                  </div>
+                  <div class="text-center mt-4 font-weight-light">
+                    Sudah memiliki akun? <a href="/login" class="text-primary">Login</a>
+                  </div>
+                </form>
+              @endif
             </div>
           </div>
           <div class="col-lg-6 register-half-bg d-flex flex-row">
