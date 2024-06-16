@@ -162,7 +162,7 @@ class LoginController extends Controller
                     Auth::logout();
                     return redirect()->route('login')->with('message', 'Akun Anda tidak aktif. Silakan hubungi administrator.');
                 }
-                if (!$user->hasRole('pendaftar')) {
+                if (!$user->hasRole('pendaftar') && !$user->hasRole('mahasiswa')) {
                     Auth::logout();
                     return redirect()->route('login')->with('message', 'Maaf, Anda tidak diizinkan untuk masuk karena telah terdaftar sebagai civitas akademika STAINUPA.');
                 }
@@ -174,7 +174,7 @@ class LoginController extends Controller
                 Auth::logout();
                 return redirect()->route('login')->with('message', 'Akun Anda tidak aktif. Silakan hubungi administrator.');
             }
-            if (!$user->hasRole('pendaftar')) {
+            if (!$user->hasRole('pendaftar') && !$user->hasRole('mahasiswa')) {
                 Auth::logout();
                 return redirect()->route('login')->with('message', 'Maaf, Anda tidak diizinkan untuk masuk karena telah terdaftar sebagai civitas akademika STAINUPA.');
             }

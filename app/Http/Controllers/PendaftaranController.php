@@ -31,6 +31,13 @@ use Illuminate\Support\Facades\Validator;
 
 class PendaftaranController extends Controller
 {
+    protected $_url;
+
+    public function __construct()
+    {
+        $this->_url = 'https://siakad.stainupa.ac.id';
+    }
+
     public function index()
     {
         $data['title'] = 'Pendaftaran Mahasiswa Baru';
@@ -42,6 +49,7 @@ class PendaftaranController extends Controller
         $data['provinsis'] = Provinsi::all();
         $data['pekerjaans'] = Pekerjaan::all();
         $data['config'] = Aplikasi::find(1);
+        $data['url'] = $this->_url;
 
         if($data['user']->pendaftaran->isEmpty()){
             $data['is_regis'] = false;
@@ -88,6 +96,7 @@ class PendaftaranController extends Controller
         $data['transportasis'] = Transportasi::all();
         $data['negaras'] = Negara::all();
         $data['jenistinggals'] = JenisTinggal::all();
+        $data['url'] = $this->_url;
 
         return view('pendaftaran.pengumuman',$data);
     }
@@ -167,7 +176,7 @@ class PendaftaranController extends Controller
         );
 
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, 'https://siakad.stainupa.ac.id/api/pendaftaran-store-file');
+        curl_setopt($ch, CURLOPT_URL, $this->_url.'/api/pendaftaran-store-file');
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $postDokData);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
@@ -285,7 +294,7 @@ class PendaftaranController extends Controller
         );
 
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, 'https://siakad.stainupa.ac.id/api/herregistrasi-store-file');
+        curl_setopt($ch, CURLOPT_URL, $this->_url.'/api/herregistrasi-store-file');
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $postDokData);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);

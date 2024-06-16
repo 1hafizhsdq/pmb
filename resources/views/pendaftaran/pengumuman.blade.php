@@ -131,6 +131,26 @@
                                                                                     <td></td>
                                                                                     <td
                                                                                         style="text-align: left;">
+                                                                                        <strong>Nominal Uang Gedung</strong></td>
+                                                                                    <td
+                                                                                        style="text-align: left;">
+                                                                                        {{ 'Rp ' . number_format($config->biaya_uanggedung, 0, ',', '.') }}
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td></td>
+                                                                                    <td
+                                                                                        style="text-align: left;">
+                                                                                        <strong>Total Nominal Bayar</strong></td>
+                                                                                    <td
+                                                                                        style="text-align: left;">
+                                                                                        {{ 'Rp ' . number_format(($config->biaya_herregistrasi+$config->biaya_uanggedung), 0, ',', '.') }}
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td></td>
+                                                                                    <td
+                                                                                        style="text-align: left;">
                                                                                         <strong>Batas Waktu
                                                                                             Pendaftaran Ulang</strong>
                                                                                     </td>
@@ -226,6 +246,8 @@
                                                                 <h2>SELAMAT</h2>
                                                                 <h4>Data Herregistrasi/Daftar Ulang anda telah
                                                                     terverifikasi</h4>
+                                                                <h4>NIM : {{ $herregistrasi->user->username }}</h4>
+                                                                <h4>Silahkan akses www.siakad.stainupa.ac.id menggunakan username dan password NIM anda diatas, lalu ganti password anda</h4>
                                                             </div>
                                                             <div class="col"></div>
                                                         </div>

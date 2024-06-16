@@ -10,6 +10,13 @@ use CURLFile;
 
 class HerregistrasiController extends Controller
 {
+    protected $_url;
+
+    public function __construct()
+    {
+        $this->_url = 'https://siakad.stainupa.ac.id';
+    }
+
     public function index()
     {
         //
@@ -75,7 +82,7 @@ class HerregistrasiController extends Controller
         );
 
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, 'https://siakad.stainupa.ac.id/api/herregistrasi-store-file');
+        curl_setopt($ch, CURLOPT_URL, $this->_url.'/api/herregistrasi-store-file');
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $postDokData);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
@@ -94,6 +101,8 @@ class HerregistrasiController extends Controller
                 'prodi_id' => $request->prodi_id,
                 'periode_id' => $request->periode_id,
                 'nominal_bayar' => $request->nominal_bayar,
+                'nominal_herregistrasi' => $request->nominal_herregistrasi,
+                'nominal_uanggedung' => $request->nominal_uanggedung,
                 'bukti_bayar' => $response->data->herregistrasi,
                 'tgl_bayar' => $request->tgl_bayar,
                 'semester' => $request->semester,

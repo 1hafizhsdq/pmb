@@ -28,7 +28,7 @@
             <h5>
                 Biaya daftar ulang sudah ditetapkan oleh pihak kampus. Apabila terdapat pertanyaan, anda dapat hubungi langsung melalui kontak kami.
             </h5>
-            <img style="height: 70px; width: 90px;" src="{{ asset('img') }}/bri.png" alt="logo" />
+            <img style="height: 70px; width: 90px;" src="//{{ $url }}/config/{{ $config->img_rekenning }}" alt="logo" />
             <table class="table table-hover">
                 <tbody>
                     <tr>
@@ -44,6 +44,14 @@
                         <td style="text-align: left;">{{ 'Rp ' . number_format($config->biaya_herregistrasi, 0, ',', '.') }}</td>
                     </tr>
                     <tr>
+                        <td style="text-align: left;"><strong>Nominal Uang Gedung</strong></td>
+                        <td style="text-align: left;">{{ 'Rp ' . number_format($config->biaya_uanggedung, 0, ',', '.') }}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: left;"><strong>Total Nominal Bayar</strong></td>
+                        <td style="text-align: left;">{{ 'Rp ' . number_format(($config->biaya_herregistrasi+$config->biaya_uanggedung), 0, ',', '.') }}</td>
+                    </tr>
+                    <tr>
                         <td style="text-align: left;"><strong>Batas Waktu Pendaftaran</strong></td>
                         <td style="text-align: left;">-</td>
                     </tr>
@@ -57,7 +65,9 @@
                     <input type="file" class="image-preview-filepond @error('file_herregistrasi') is-invalid @enderror" id="file_herregistrasi" name="file_herregistrasi">
                     <small>File bertipe jpg/jpeg/png, maksimal berukuran 2MB</small>
                 </div>
-                <input type="hidden" name="nominal_bayar" id="nominal_bayar" value="{{ $config->biaya_herregistrasi }}">
+                <input type="hidden" name="nominal_bayar" id="nominal_bayar" value="{{ ($config->biaya_herregistrasi+$config->biaya_uanggedung) }}">
+                <input type="hidden" name="nominal_herregistrasi" id="nominal_herregistrasi" value="{{ $config->biaya_herregistrasi }}">
+                <input type="hidden" name="nominal_uanggedung" id="nominal_uanggedung" value="{{ $config->biaya_uanggedung }}">
                 <div class="col-md-4">
                     <label for="tgl_bayar">Tanggal Pembayaran</label>
                 </div>
