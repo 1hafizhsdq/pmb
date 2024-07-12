@@ -40,15 +40,15 @@
                         <td style="text-align: left;">{{ $config->nama_bank }}</td>
                     </tr>
                     <tr>
-                        <td style="text-align: left;"><strong>Nominal Daftar Ulang</strong></td>
+                        <td style="text-align: left;"><strong>Biaya Daftar Ulang</strong></td>
                         <td style="text-align: left;">{{ 'Rp ' . number_format($config->biaya_herregistrasi, 0, ',', '.') }}</td>
                     </tr>
                     <tr>
-                        <td style="text-align: left;"><strong>Nominal Uang Gedung</strong></td>
+                        <td style="text-align: left;"><strong>Biaya Uang Gedung</strong></td>
                         <td style="text-align: left;">{{ 'Rp ' . number_format($config->biaya_uanggedung, 0, ',', '.') }}</td>
                     </tr>
                     <tr>
-                        <td style="text-align: left;"><strong>Total Nominal Bayar</strong></td>
+                        <td style="text-align: left;"><strong>Total Biaya</strong></td>
                         <td style="text-align: left;">{{ 'Rp ' . number_format(($config->biaya_herregistrasi+$config->biaya_uanggedung), 0, ',', '.') }}</td>
                     </tr>
                     <tr>
@@ -58,6 +58,18 @@
                 </tbody>
             </table>
             <div class="row mt-5">
+                <div class="col-md-4">
+                    <label for="terbayar_herregistrasi">Nominal Pembayaran Herregistrasi / Daftar Ulang</label>
+                </div>
+                <div class="col-md-8 form-group">
+                    <input type="text" id="terbayar_herregistrasi" onkeypress="return isNumber(event)" class="form-control @error('terbayar_herregistrasi') is-invalid @enderror" name="terbayar_herregistrasi">
+                </div>
+                <div class="col-md-4">
+                    <label for="terbayar_uanggedung">Nominal Pembayaran Uang Gedung</label>
+                </div>
+                <div class="col-md-8 form-group">
+                    <input type="text" id="terbayar_uanggedung" onkeypress="return isNumber(event)" class="form-control @error('terbayar_uanggedung') is-invalid @enderror" name="terbayar_uanggedung">
+                </div>
                 <div class="col-md-4">
                     <label for="file_herregistrasi">Bukti Pembayaran</label>
                 </div>

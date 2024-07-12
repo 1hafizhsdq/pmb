@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BiodataMahasiswa;
 use App\Models\Herregistrasi;
+use App\Models\RiwayatBayar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use CURLFile;
@@ -96,17 +97,42 @@ class HerregistrasiController extends Controller
         }
 
         try {
-            Herregistrasi::create([
+            $sisabayarherreg = $request->nominal_herregistrasi-$request->terbayar_herregistrasi;
+            $sisabayaruanggedung = $request->nominal_uanggedung-$request->terbayar_uanggedung;
+            $herreg = Herregistrasi::create([
                 'user_id' => $request->user_id,
                 'prodi_id' => $request->prodi_id,
                 'periode_id' => $request->periode_id,
                 'nominal_bayar' => $request->nominal_bayar,
                 'nominal_herregistrasi' => $request->nominal_herregistrasi,
+                'terbayar_herregistrasi' => $request->terbayar_herregistrasi,
+                'sisabayar_herregistrasi' => $sisabayarherreg,
                 'nominal_uanggedung' => $request->nominal_uanggedung,
+                'terbayar_uanggedung' => $request->terbayar_uanggedung,
+                'sisabayar_uanggedung' => $sisabayaruanggedung,
                 'bukti_bayar' => $response->data->herregistrasi,
                 'tgl_bayar' => $request->tgl_bayar,
                 'semester' => $request->semester,
             ]);
+
+            RiwayatBayar::create(
+                [
+                    'herregistrasi_id' => $herreg->id,
+                    'tujuan_bayar' => '1',
+                    'nominal_pembayaran' => $request->terbayar_herregistrasi,
+                    'sisa_pembayaran' => $sisabayarherreg,
+                    'bukti_bayar' => $response->data->herregistrasi,
+                ]
+            );
+            RiwayatBayar::create(
+                [
+                    'herregistrasi_id' => $herreg->id,
+                    'tujuan_bayar' => '2',
+                    'nominal_pembayaran' => $request->terbayar_uanggedung,
+                    'sisa_pembayaran' => $sisabayaruanggedung,
+                    'bukti_bayar' => $response->data->herregistrasi,
+                ]
+            );
 
             BiodataMahasiswa::create([
                 'user_id' => $request->user_id,
@@ -138,7 +164,7 @@ class HerregistrasiController extends Controller
             ]);
             return response()->json([ 'success' => 'Berhasil menyimpan data.']);
         } catch (\Throwable $th) {
-            return response()->json(['errors' => ['Gagal menyimpan data']]);
+            return response()->json(['errors' => ['Gagal menyimpan data '.$th]]);
         }
     }
 

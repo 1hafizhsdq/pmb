@@ -236,7 +236,7 @@
                                                                 onclick="stepper3.previous()">Kembali</button>
                                                             <button class="btn btn-primary" id="save">Simpan &
                                                                 Lanjutkan</button>
-                                                    @elseif($herregistrasi->status_verif == '1')
+                                                    @elseif($herregistrasi->status_verif == '1' || $herregistrasi->status_verif == '2')
                                                         <div class="row mb-5">
                                                             <div class="col"></div>
                                                             <div class="col-10">
