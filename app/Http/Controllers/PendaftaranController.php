@@ -126,6 +126,8 @@ class PendaftaranController extends Controller
             'file_pembayaran' => 'required|mimes:jpg,jpeg,png|max:2048',
             'no_ijazah' => 'required',
             'prodi_id' => 'required',
+            'penghasilan_ayah' => 'numeric',
+            'penghasilan_ibu' => 'numeric',
         ], [
             'nama.required' => 'Nama tidak boleh kosong!',
             'tempat_lahir.required' => 'Tempat Lahir tidak boleh kosong!',
@@ -152,6 +154,8 @@ class PendaftaranController extends Controller
             'file_pembayaran.max' => 'Bukti Pembayaran maksimal berukuran 2MB!',
             'no_ijazah.required' => 'No. Ijazah tidak boleh kosong!',
             'prodi_id.required' => 'Program Studi tidak boleh kosong!',
+            'penghasilan_ayah.numeric' => 'Penghasilan ayah harus angka!',
+            'penghasilan_ibu.numeric' => 'Penghasilan ibu harus angka!',
         ]);
 
         if ($validator->fails()) {
