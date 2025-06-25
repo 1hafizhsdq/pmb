@@ -82,7 +82,7 @@
                   <div class="form-group">
                     <label>Telp (WA)</label>
                     <div class="input-group">
-                      <input type="text" class="form-control form-control-lg border-left-0 @error('telp') is-invalid @enderror" name="telp" value="{{ old('telp') }}" placeholder="Telpon (WA)" onkeypress="return isNumber(event)">
+                      <input type="number" class="form-control form-control-lg border-left-0 @error('telp') is-invalid @enderror" name="telp" value="{{ old('telp') }}" placeholder="Telpon (WA)" onkeypress="return isNumber(event)">
                     </div>
                   </div>
                   @error('password')
