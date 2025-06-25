@@ -78,7 +78,7 @@
               @endif
             </div>
           </div>
-          <div class="col-lg-6 login-half-bg d-flex flex-row">
+          <div class="col-lg-6 login-half-bg d-flex flex-row" style="background: url(/template/images/auth/login-bgxx.jpg);background-size:cover;">
             {{-- <p class="text-white font-weight-medium text-center flex-grow align-self-end">Copyright &copy; 2021  All rights reserved.</p> --}}
           </div>
         </div>

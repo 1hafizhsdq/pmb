@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('customThrottle:60,1')->group(function () {
     Auth::routes();
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/home', [PendaftaranController::class, 'index'])->name('home');
     
     Route::middleware(['auth'])->group(function () {
         Route::get('/', [PendaftaranController::class, 'index']);
