@@ -117,22 +117,22 @@
                                                         <label for="kode_pos">Kodepos/Dusun/RT/RW</label>
                                                     </div>
                                                     <div class="col-md-2 form-group">
-                                                        <input type="text" id="kode_pos" class="form-control @error('kode_pos') is-invalid @enderror" name="kode_pos" placeholder="Kodepos">
+                                                        <input type="number" id="kode_pos" class="form-control @error('kode_pos') is-invalid @enderror" name="kode_pos" placeholder="Kodepos">
                                                     </div>
                                                     <div class="col-md-2 form-group">
                                                         <input type="text" id="dusun" class="form-control @error('dusun') is-invalid @enderror" name="dusun" placeholder="Dusun">
                                                     </div>
                                                     <div class="col-md-2 form-group">
-                                                        <input type="text" id="rt" class="form-control @error('rt') is-invalid @enderror" name="rt" placeholder="RT">
+                                                        <input type="number" id="rt" class="form-control @error('rt') is-invalid @enderror" name="rt" placeholder="RT">
                                                     </div>
                                                     <div class="col-md-2 form-group">
-                                                        <input type="text" id="rw" class="form-control @error('rw') is-invalid @enderror" name="rw" placeholder="RW">
+                                                        <input type="number" id="rw" class="form-control @error('rw') is-invalid @enderror" name="rw" placeholder="RW">
                                                     </div>
                                                     <div class="col-md-4">
                                                         <label for="telp">Nomor Telepon</label>
                                                     </div>
                                                     <div class="col-md-8 form-group">
-                                                        <input type="text" id="telp" onkeypress="return isNumber(event)" class="form-control @error('telp') is-invalid @enderror" name="telp"
+                                                        <input type="number" id="telp" onkeypress="return isNumber(event)" class="form-control @error('telp') is-invalid @enderror" name="telp"
                                                             value="{{ $user->telp }}">
                                                     </div>
                                                     <div class="col-md-4">
@@ -146,14 +146,14 @@
                                                         <label for="nik">Nomor Induk Kependudukan (NIK)</label>
                                                     </div>
                                                     <div class="col-md-8 form-group">
-                                                        <input type="text" id="nik" class="form-control @error('nik') is-invalid @enderror" name="nik"
+                                                        <input type="number" id="nik" class="form-control @error('nik') is-invalid @enderror" name="nik"
                                                             onkeypress="return isNumber(event)" maxlength="16">
                                                     </div>
                                                     <div class="col-md-4">
                                                         <label for="nisn">Nomor Induk Siswa Nasional (NISN)</label>
                                                     </div>
                                                     <div class="col-md-8 form-group">
-                                                        <input type="text" id="nisn" class="form-control @error('nisn') is-invalid @enderror" name="nisn"
+                                                        <input type="number" id="nisn" class="form-control @error('nisn') is-invalid @enderror" name="nisn"
                                                             onkeypress="return isNumber(event)" maxlength="10">
                                                     </div>
                                                     <div class="col-md-4">
@@ -184,11 +184,11 @@
                                                         <label for="periode">Periode Sekolah</label>
                                                     </div>
                                                     <div class="col-md-4 form-group">
-                                                        <input type="text" id="tahun_masuk" class="form-control @error('tahun_masuk') is-invalid @enderror" name="tahun_masuk"
+                                                        <input type="number" id="tahun_masuk" class="form-control @error('tahun_masuk') is-invalid @enderror" name="tahun_masuk"
                                                             placeholder="Tahun Masuk" onkeypress="return isNumber(event)">
                                                     </div>
                                                     <div class="col-md-4 form-group">
-                                                        <input type="text" id="tahun_lulus" class="form-control @error('tahun_lulus') is-invalid @enderror" name="tahun_lulus"
+                                                        <input type="number" id="tahun_lulus" class="form-control @error('tahun_lulus') is-invalid @enderror" name="tahun_lulus"
                                                             placeholder="Tahun Lulus" onkeypress="return isNumber(event)">
                                                     </div>
                                                 </div>
@@ -218,7 +218,7 @@
                                                         <label for="nik">Nomor Induk Kependudukan (NIK)</label>
                                                     </div>
                                                     <div class="col-md-8 form-group">
-                                                        <input type="text" id="nik_ayah" class="form-control" name="nik_ayah"
+                                                        <input type="number" id="nik_ayah" class="form-control" name="nik_ayah"
                                                             onkeypress="return isNumber(event)" maxlength="16">
                                                     </div>
                                                     <div class="col-md-4">
@@ -260,8 +260,8 @@
                                                         <label for="penghasilan">Penghasilan</label>
                                                     </div>
                                                     <div class="col-md-8 form-group">
-                                                        <input type="text" id="penghasilan_ayah" class="form-control" name="penghasilan_ayah"
-                                                            onkeypress="return isNumber(event)">
+                                                        <input type="number" id="penghasilan_ayah" class="form-control" name="penghasilan_ayah"
+                                                            onkeydown="preventDot(event)" onpaste="preventPaste(event)">
                                                     </div>
                                                 </div>
                                                 {{-- End section Biodata Ayah --}}
@@ -289,7 +289,7 @@
                                                         <label for="nik">Nomor Induk Kependudukan (NIK)</label>
                                                     </div>
                                                     <div class="col-md-8 form-group">
-                                                        <input type="text" id="nik_ibu" class="form-control" name="nik_ibu"
+                                                        <input type="number" id="nik_ibu" class="form-control" name="nik_ibu"
                                                             onkeypress="return isNumber(event)" maxlength="16">
                                                     </div>
                                                     <div class="col-md-4">
@@ -331,8 +331,8 @@
                                                         <label for="penghasilan">Penghasilan</label>
                                                     </div>
                                                     <div class="col-md-8 form-group">
-                                                        <input type="text" id="penghasilan_ibu" class="form-control" name="penghasilan_ibu"
-                                                            onkeypress="return isNumber(event)">
+                                                        <input type="number" id="penghasilan_ibu" class="form-control" name="penghasilan_ibu"
+                                                            onkeydown="preventDot(event)" onpaste="preventPaste(event)">
                                                     </div>
                                                 </div>
                                                 {{-- End section Biodata Ibu --}}
@@ -560,6 +560,19 @@
                 },
             });
         });
+
+        function preventDot(e) {
+            if (e.key === '.' || e.keyCode === 190 || e.keyCode === 110) {
+                e.preventDefault();
+            }
+        }
+
+        function preventPaste(e) {
+            const clipboardData = (e.clipboardData || window.clipboardData).getData('text');
+            if (clipboardData.includes('.')) {
+                e.preventDefault();
+            }
+        }
     </script>
 @endpush
 
