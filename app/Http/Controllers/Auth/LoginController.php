@@ -76,8 +76,13 @@ class LoginController extends Controller
 
     public function showLoginForm()
     {
-        $data['periode'] = Periode::with('pmb')->where('is_active',1)->first();
         $tanggal_saat_ini = Carbon::now();
+        $data['periode'] = Periode::with('pmb')
+                            ->whereHas('pmb', function ($query) {
+                                $query->whereDate('tgl_awal_pmb', '<=', Carbon::today())
+                                    ->whereDate('tgl_akhir_pmb', '>=', Carbon::today());
+                            })
+                            ->first();
         $data['form_dibuka'] = false;
         $data['tgl_melewati_semua_pmb'] = true;
         $data['status_message'] = '';
@@ -105,7 +110,8 @@ class LoginController extends Controller
                 }
             }
         } else {
-            $data['status_message'] = 'PMB periode '.$data['periode']->nama_periode.' '.$data['periode']->semester.' Belum tersedia.';
+            // $data['status_message'] = 'PMB periode '.$data['periode']->nama_periode.' '.$data['periode']->semester.' Belum tersedia.';
+            $data['status_message'] = 'PMB Belum dibuka.';
         }
 
         return view('auth.login',$data);
