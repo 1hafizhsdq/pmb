@@ -121,7 +121,8 @@ class PendaftaranController extends Controller
 
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $specialValidation = $this->_specialValidation($request->jalur_id);
+        $ruleValidation = [
             'nama' => 'required',
             'tempat_lahir' => 'required',
             'tgl_lahir' => 'required',
@@ -141,7 +142,8 @@ class PendaftaranController extends Controller
             'prodi_id' => 'required',
             'penghasilan_ayah' => 'numeric',
             'penghasilan_ibu' => 'numeric',
-        ], [
+        ];
+        $msgValidation = [
             'nama.required' => 'Nama tidak boleh kosong!',
             'tempat_lahir.required' => 'Tempat Lahir tidak boleh kosong!',
             'tgl_lahir.required' => 'Tanggal Lahir tidak boleh kosong!',
@@ -167,7 +169,11 @@ class PendaftaranController extends Controller
             'prodi_id.required' => 'Program Studi tidak boleh kosong!',
             'penghasilan_ayah.numeric' => 'Penghasilan ayah harus angka!',
             'penghasilan_ibu.numeric' => 'Penghasilan ibu harus angka!',
-        ]);
+        ];
+        $validator = Validator::make($request->all(), 
+            array_merge($ruleValidation,$specialValidation['validationRule']),
+            array_merge($msgValidation,$specialValidation['validationRuleMsg'])
+        );
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()->all()]);
@@ -357,4 +363,57 @@ class PendaftaranController extends Controller
                 return "";
         }
     }
+
+    private function _specialValidation($jalur)
+    {
+        $addValidationRule = [];
+        $addValidationRuleMsg = [];
+
+        if(in_array($jalur, [2,3,4,5])){
+            if($jalur == 5){
+                $addValidationRule = ['rekom_madin' => 'required|mimes:pdf,jpg,jpeg,png|max:2048'];
+                $addValidationRuleMsg = [
+                    'rekom_madin.required' => 'Surat Rekomendasi Madin tidak boleh kosong!',
+                    'rekom_madin.mimes' => 'Surat Rekomendasi Madin harus berformat PDF!',
+                    'rekom_madin.max' => 'Surat Rekomendasi Madin maksimal berukuran 2MB!',
+                ];
+            }else{
+                $addValidationRule = ['bukti_prestasi' => 'required|mimes:pdf,jpg,jpeg,png|max:2048'];
+                $addValidationRuleMsg = [
+                    'bukti_prestasi.required' => 'Bukti Prestasi tidak boleh kosong!',
+                    'bukti_prestasi.mimes' => 'Bukti Prestasi harus berformat PDF!',
+                    'bukti_prestasi.max' => 'Bukti Prestasi maksimal berukuran 2MB!',
+                ];
+            }
+    
+            $validationRule = [
+                'pasfoto' => 'required|mimes:jpg,jpeg,png|max:2048',
+                'kk' => 'required|mimes:jpg,jpeg,png|max:2048',
+                'nisn' => 'required|mimes:jpg,jpeg,png|max:2048',
+            ];
+            $validationRule = array_merge($validationRule, $addValidationRule);
+    
+            $validationRuleMsg = [
+                'pasfoto.required' => 'Pas Foto tidak boleh kosong!',
+                'pasfoto.mimes' => 'Pas Foto harus berformat JPG/JPEG/PNG!',
+                'pasfoto.max' => 'Pas Foto maksimal berukuran 2MB!',
+                'kk.required' => 'Kartu Keluarga tidak boleh kosong!',
+                'kk.mimes' => 'Kartu Keluarga harus berformat JPG/JPEG/PNG!',
+                'kk.max' => 'Kartu Keluarga maksimal berukuran 2MB!',
+                'nisn.required' => 'Kartu NISN tidak boleh kosong!',
+                'nisn.mimes' => 'Kartu NISN harus berformat JPG/JPEG/PNG!',
+                'nisn.max' => 'Kartu NISN maksimal berukuran 2MB!',
+            ];
+            $addValidationRuleMsg = array_merge($validationRuleMsg, $addValidationRuleMsg);
+        }else{
+            $validationRule = [];
+            $addValidationRuleMsg = [];
+        }
+
+        $data['validationRule'] = $validationRule;
+        $data['validationRuleMsg'] = $addValidationRuleMsg;
+    
+        return $data;
+    }
+
 }

@@ -22,10 +22,10 @@
         <small>File bertipe PDF/JPG/JPEG/PNG, maksimal berukuran 2MB</small>
     </div>
     <div class="col-md-4">
-        <label for="bukti_prestasi">Surat Rekomendasi Madin</label>
+        <label for="rekom_madin">Surat Rekomendasi Madin</label>
     </div>
     <div class="col-md-8 form-group">
-        <input type="file" class="basic-filepond @error('bukti_prestasi') is-invalid @enderror" id="bukti_prestasi" name="bukti_prestasi">
+        <input type="file" class="basic-filepond @error('rekom_madin') is-invalid @enderror" id="rekom_madin" name="rekom_madin">
         <small>Surat rekomendasi dari Madin, File bertipe PDF/JPG/JPEG/PNG, maksimal berukuran 2MB</small>
     </div>
 </div>
