@@ -20,5 +20,6 @@ Route::middleware('customThrottle:60,1')->group(function () {
         Route::get('/kecamatan/{kotaid}', [PendaftaranController::class, 'kecamatan']);
         Route::get('/kelurahan/{kecamatanid}', [PendaftaranController::class, 'kelurahan']);
         Route::get('/kodepos/{kelurahanid}', [PendaftaranController::class, 'kodepos']);
+        Route::post('/form', [PendaftaranController::class, 'form'])->name('form');
     });
 });

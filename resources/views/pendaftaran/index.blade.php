@@ -355,6 +355,13 @@
                                                     </div>
                                                 </div>
                                                 {{-- End section Dokumen --}}
+
+                                                {{-- Start dokumen jalur  --}}
+                                                <div class="dokumen-jalur">
+                                                    <input type="hidden" name="jalur_id" id="jalur_id" value="{{ $jalur_id }}">
+                                                    {!! $forms !!}
+                                                </div>
+                                                {{-- End dokumen jalur  --}}
             
                                                 {{-- Start section Jurusan --}}
                                                 <h4 class="card-title">Program Studi</h4>
@@ -573,6 +580,28 @@
                 e.preventDefault();
             }
         }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputElements = document.querySelectorAll('.basic-filepond');
+            const inputElementsImg = document.querySelectorAll('.image-preview-filepond');
+
+            inputElements.forEach(inputElement => {
+                FilePond.create(inputElement, {
+                    // allowMultiple: false,
+                    acceptedFileTypes: ['image/jpeg', 'image/png', 'application/pdf'],
+                    maxFileSize: '2MB',
+                    // server: { /* konfigurasi server Anda */ }
+                });
+            });
+            inputElementsImg.forEach(inputElement => {
+                FilePond.create(inputElement, {
+                    // allowMultiple: false,
+                    acceptedFileTypes: ['image/jpeg', 'image/png'],
+                    maxFileSize: '2MB',
+                    // server: { /* konfigurasi server Anda */ }
+                });
+            });
+        });
     </script>
 @endpush
 

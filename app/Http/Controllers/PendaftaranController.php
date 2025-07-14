@@ -7,6 +7,7 @@ use App\Models\Aplikasi;
 use App\Models\BiodataMahasiswa;
 use App\Models\Cofigs;
 use App\Models\Herregistrasi;
+use App\Models\JalurPmb;
 use App\Models\JenisTinggal;
 use App\Models\Kecamatan;
 use App\Models\Kelurahan;
@@ -38,8 +39,23 @@ class PendaftaranController extends Controller
         $this->_url = 'https://siakad.stainupa.ac.id';
     }
 
-    public function index()
-    {
+    public function index(){
+        $data['title'] = 'Pendaftaran Mahasiswa Baru';
+        $data['user'] = User::with('pendaftaran.periode')
+            ->where('id', Auth::user()->id)
+            ->first();
+        $data['jalurs'] = JalurPmb::get();
+
+        if($data['user']->pendaftaran->isEmpty()){
+            $data['is_regis'] = false;
+        }else{
+            $data['is_regis'] = true;
+        }
+
+        return view('pendaftaran.jalur',$data);
+    }
+
+    public function form(Request $request){
         $data['title'] = 'Pendaftaran Mahasiswa Baru';
         $data['periodes'] = Periode::where('is_active',1)->first();
         $data['user'] = User::with('pendaftaran.periode')
@@ -50,6 +66,8 @@ class PendaftaranController extends Controller
         $data['pekerjaans'] = Pekerjaan::all();
         $data['config'] = Aplikasi::find(1);
         $data['url'] = $this->_url;
+        $data['forms'] = $this->_formJalur($request->jalur_id);
+        $data['jalur_id'] = $request->jalur_id;
 
         if($data['user']->pendaftaran->isEmpty()){
             $data['is_regis'] = false;
@@ -99,11 +117,6 @@ class PendaftaranController extends Controller
         $data['url'] = $this->_url;
 
         return view('pendaftaran.pengumuman',$data);
-    }
-
-    public function create()
-    {
-        //
     }
 
     public function store(Request $request)
@@ -325,23 +338,23 @@ class PendaftaranController extends Controller
         }
     }
 
-    public function show(Pendaftaran $pendaftaran)
+    private function _formJalur($jalur)
     {
-        //
-    }
-
-    public function edit(Pendaftaran $pendaftaran)
-    {
-        //
-    }
-
-    public function update(Request $request, Pendaftaran $pendaftaran)
-    {
-        //
-    }
-
-    public function destroy(Pendaftaran $pendaftaran)
-    {
-        //
+        switch ($jalur) {
+            case '1':
+                return "";
+            case '2':
+                return view('pendaftaran.jalur.akademik');
+            case '3':
+                return view('pendaftaran.jalur.nonakademik');
+            case '4':
+                return view('pendaftaran.jalur.tahfidz');
+            case '5':
+                return view('pendaftaran.jalur.madin');
+            case '6':
+                return "";
+            default:
+                return "";
+        }
     }
 }
