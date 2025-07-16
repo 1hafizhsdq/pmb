@@ -194,6 +194,46 @@ class PendaftaranController extends Controller
             $file = new CURLFile($fileTmpName,$filetype,$filename);
             $postDokData['file_pembayaran'] = $file;
         }
+        if(isset($_FILES['pasfoto'])){
+            $fileTmpName  = $_FILES['pasfoto']['tmp_name'];
+            $filetype  = $_FILES['pasfoto']['type'];
+            $filename  = $_FILES['pasfoto']['name'];
+            $file = new CURLFile($fileTmpName,$filetype,$filename);
+            $postDokData['pasfoto'] = $file;
+        }
+        if(isset($_FILES['kk'])){
+            $fileTmpName  = $_FILES['kk']['tmp_name'];
+            $filetype  = $_FILES['kk']['type'];
+            $filename  = $_FILES['kk']['name'];
+            $file = new CURLFile($fileTmpName,$filetype,$filename);
+            $postDokData['kk'] = $file;
+        }
+        if(isset($_FILES['nisn'])){
+            $fileTmpName  = $_FILES['nisn']['tmp_name'];
+            $filetype  = $_FILES['nisn']['type'];
+            $filename  = $_FILES['nisn']['name'];
+            $file = new CURLFile($fileTmpName,$filetype,$filename);
+            $postDokData['nisn'] = $file;
+        }
+        if(in_array($request->jalur_id, [2,3,4,5,6])){
+            if($request->jalur_id == 5){
+                if(isset($_FILES['rekom_madin'])){
+                    $fileTmpName  = $_FILES['rekom_madin']['tmp_name'];
+                    $filetype  = $_FILES['rekom_madin']['type'];
+                    $filename  = $_FILES['rekom_madin']['name'];
+                    $file = new CURLFile($fileTmpName,$filetype,$filename);
+                    $postDokData['rekom_madin'] = $file;
+                }
+            }else{
+                if(isset($_FILES['bukti_prestasi'])){
+                    $fileTmpName  = $_FILES['bukti_prestasi']['tmp_name'];
+                    $filetype  = $_FILES['bukti_prestasi']['type'];
+                    $filename  = $_FILES['bukti_prestasi']['name'];
+                    $file = new CURLFile($fileTmpName,$filetype,$filename);
+                    $postDokData['bukti_prestasi'] = $file;
+                }
+            }
+        }
 
         $headers = array(
             "Accept: application/json",
@@ -348,7 +388,7 @@ class PendaftaranController extends Controller
     {
         switch ($jalur) {
             case '1':
-                return "";
+                return view('pendaftaran.jalur.umum');
             case '2':
                 return view('pendaftaran.jalur.akademik');
             case '3':
@@ -358,9 +398,9 @@ class PendaftaranController extends Controller
             case '5':
                 return view('pendaftaran.jalur.madin');
             case '6':
-                return "";
+                return view('pendaftaran.jalur.umum');
             default:
-                return "";
+                return view('pendaftaran.jalur.umum');
         }
     }
 
