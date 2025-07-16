@@ -22,6 +22,7 @@ use App\Models\Provinsi;
 use App\Models\StatusMahasiswa;
 use App\Models\Transportasi;
 use App\Models\User;
+use Carbon\Carbon;
 use CURLFile;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
@@ -37,6 +38,7 @@ class PendaftaranController extends Controller
     public function __construct()
     {
         $this->_url = 'https://siakad.stainupa.ac.id';
+        // $this->_url = 'http://siakad.test';
     }
 
     public function index(){
@@ -57,7 +59,12 @@ class PendaftaranController extends Controller
 
     public function form(Request $request){
         $data['title'] = 'Pendaftaran Mahasiswa Baru';
-        $data['periodes'] = Periode::where('is_active',1)->first();
+        $data['periode'] = Periode::with('pmb')
+                            ->whereHas('pmb', function ($query) {
+                                $query->whereDate('tgl_awal_pmb', '<=', Carbon::today())
+                                    ->whereDate('tgl_akhir_pmb', '>=', Carbon::today());
+                            })
+                            ->first();
         $data['user'] = User::with('pendaftaran.periode')
             ->where('id', Auth::user()->id)
             ->first();
@@ -208,12 +215,12 @@ class PendaftaranController extends Controller
             $file = new CURLFile($fileTmpName,$filetype,$filename);
             $postDokData['kk'] = $file;
         }
-        if(isset($_FILES['nisn'])){
-            $fileTmpName  = $_FILES['nisn']['tmp_name'];
-            $filetype  = $_FILES['nisn']['type'];
-            $filename  = $_FILES['nisn']['name'];
+        if(isset($_FILES['kartu_nisn'])){
+            $fileTmpName  = $_FILES['kartu_nisn']['tmp_name'];
+            $filetype  = $_FILES['kartu_nisn']['type'];
+            $filename  = $_FILES['kartu_nisn']['name'];
             $file = new CURLFile($fileTmpName,$filetype,$filename);
-            $postDokData['nisn'] = $file;
+            $postDokData['kartu_nisn'] = $file;
         }
         if(in_array($request->jalur_id, [2,3,4,5,6])){
             if($request->jalur_id == 5){
@@ -260,6 +267,7 @@ class PendaftaranController extends Controller
                 'user_id' => $request->user_id,
                 'periode_id' => $request->periode_id,
                 'prodi_id' => $request->prodi_id,
+                'jalur_id' => $request->jalur_id,
                 'nama' => strtoupper($request->nama),
                 'jenis_kelamin' => $request->jenis_kelamin,
                 'tempat_lahir' => strtoupper($request->tempat_lahir), 
@@ -287,6 +295,11 @@ class PendaftaranController extends Controller
                 'nominal_bayar' => $request->nominal_pendaftaran,
                 'bukti_bayar' => $response->data->pembayaran,
                 'tgl_bayar' => $request->tgl_bayar,
+                'pasfoto' => $response->data->pasfoto,
+                'kk' => $response->data->kk,
+                'kartu_nisn' => $response->data->kartu_nisn,
+                'bukti_prestasi' => $response->data->bukti_prestasi ?? null,
+                'rekom_madin' => $response->data->rekom_madin ?? null
             ]);
 
             Ortu::create(
