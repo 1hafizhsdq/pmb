@@ -7,6 +7,7 @@ use App\Models\Aplikasi;
 use App\Models\BiodataMahasiswa;
 use App\Models\Cofigs;
 use App\Models\Herregistrasi;
+use App\Models\JalurPmb;
 use App\Models\JenisTinggal;
 use App\Models\Kecamatan;
 use App\Models\Kelurahan;
@@ -21,6 +22,7 @@ use App\Models\Provinsi;
 use App\Models\StatusMahasiswa;
 use App\Models\Transportasi;
 use App\Models\User;
+use Carbon\Carbon;
 use CURLFile;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
@@ -35,13 +37,34 @@ class PendaftaranController extends Controller
 
     public function __construct()
     {
-        $this->_url = 'https://siakad.stainupa.ac.id';
+        // $this->_url = 'https://siakad.stainupa.ac.id';
+        $this->_url = 'http://siakad.test';
     }
 
-    public function index()
-    {
+    public function index(){
         $data['title'] = 'Pendaftaran Mahasiswa Baru';
-        $data['periodes'] = Periode::where('is_active',1)->first();
+        $data['user'] = User::with('pendaftaran.periode')
+            ->where('id', Auth::user()->id)
+            ->first();
+        $data['jalurs'] = JalurPmb::get();
+
+        if($data['user']->pendaftaran->isEmpty()){
+            $data['is_regis'] = false;
+        }else{
+            $data['is_regis'] = true;
+        }
+
+        return view('pendaftaran.jalur',$data);
+    }
+
+    public function form(Request $request){
+        $data['title'] = 'Pendaftaran Mahasiswa Baru';
+        $data['periodes'] = Periode::with('pmb')
+                            ->whereHas('pmb', function ($query) {
+                                $query->whereDate('tgl_awal_pmb', '<=', Carbon::today())
+                                    ->whereDate('tgl_akhir_pmb', '>=', Carbon::today());
+                            })
+                            ->first();
         $data['user'] = User::with('pendaftaran.periode')
             ->where('id', Auth::user()->id)
             ->first();
@@ -50,6 +73,8 @@ class PendaftaranController extends Controller
         $data['pekerjaans'] = Pekerjaan::all();
         $data['config'] = Aplikasi::find(1);
         $data['url'] = $this->_url;
+        $data['forms'] = $this->_formJalur($request->jalur_id);
+        $data['jalur_id'] = $request->jalur_id;
 
         if($data['user']->pendaftaran->isEmpty()){
             $data['is_regis'] = false;
@@ -83,9 +108,10 @@ class PendaftaranController extends Controller
     public function pengumuman(){
         $data['title'] = 'Pengumuman Mahasiswa Baru';
         $data['pengumuman'] = Pendaftaran::with('periode','prodi','user')
-            ->whereHas('periode', function($q){
-                $q->where('is_active',1);
-            })
+            // ->whereHas('periode', function($q){
+            //     $q->whereDate('tgl_awal_pmb', '<=', Carbon::today())
+            //     ->whereDate('tgl_akhir_pmb', '>=', Carbon::today());
+            // })
             ->where('user_id', Auth::user()->id)
             ->first();
         $data['herregistrasi'] = Herregistrasi::where('user_id', Auth::user()->id)
@@ -101,14 +127,10 @@ class PendaftaranController extends Controller
         return view('pendaftaran.pengumuman',$data);
     }
 
-    public function create()
-    {
-        //
-    }
-
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $specialValidation = $this->_specialValidation($request->jalur_id);
+        $ruleValidation = [
             'nama' => 'required',
             'tempat_lahir' => 'required',
             'tgl_lahir' => 'required',
@@ -128,7 +150,8 @@ class PendaftaranController extends Controller
             'prodi_id' => 'required',
             'penghasilan_ayah' => 'numeric',
             'penghasilan_ibu' => 'numeric',
-        ], [
+        ];
+        $msgValidation = [
             'nama.required' => 'Nama tidak boleh kosong!',
             'tempat_lahir.required' => 'Tempat Lahir tidak boleh kosong!',
             'tgl_lahir.required' => 'Tanggal Lahir tidak boleh kosong!',
@@ -154,7 +177,11 @@ class PendaftaranController extends Controller
             'prodi_id.required' => 'Program Studi tidak boleh kosong!',
             'penghasilan_ayah.numeric' => 'Penghasilan ayah harus angka!',
             'penghasilan_ibu.numeric' => 'Penghasilan ibu harus angka!',
-        ]);
+        ];
+        $validator = Validator::make($request->all(), 
+            array_merge($ruleValidation,$specialValidation['validationRule']),
+            array_merge($msgValidation,$specialValidation['validationRuleMsg'])
+        );
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()->all()]);
@@ -174,6 +201,46 @@ class PendaftaranController extends Controller
             $filename  = $_FILES['file_pembayaran']['name'];
             $file = new CURLFile($fileTmpName,$filetype,$filename);
             $postDokData['file_pembayaran'] = $file;
+        }
+        if(isset($_FILES['pasfoto'])){
+            $fileTmpName  = $_FILES['pasfoto']['tmp_name'];
+            $filetype  = $_FILES['pasfoto']['type'];
+            $filename  = $_FILES['pasfoto']['name'];
+            $file = new CURLFile($fileTmpName,$filetype,$filename);
+            $postDokData['pasfoto'] = $file;
+        }
+        if(isset($_FILES['kk'])){
+            $fileTmpName  = $_FILES['kk']['tmp_name'];
+            $filetype  = $_FILES['kk']['type'];
+            $filename  = $_FILES['kk']['name'];
+            $file = new CURLFile($fileTmpName,$filetype,$filename);
+            $postDokData['kk'] = $file;
+        }
+        if(isset($_FILES['kartu_nisn'])){
+            $fileTmpName  = $_FILES['kartu_nisn']['tmp_name'];
+            $filetype  = $_FILES['kartu_nisn']['type'];
+            $filename  = $_FILES['kartu_nisn']['name'];
+            $file = new CURLFile($fileTmpName,$filetype,$filename);
+            $postDokData['kartu_nisn'] = $file;
+        }
+        if(in_array($request->jalur_id, [2,3,4,5,6])){
+            if($request->jalur_id == 5){
+                if(isset($_FILES['rekom_madin'])){
+                    $fileTmpName  = $_FILES['rekom_madin']['tmp_name'];
+                    $filetype  = $_FILES['rekom_madin']['type'];
+                    $filename  = $_FILES['rekom_madin']['name'];
+                    $file = new CURLFile($fileTmpName,$filetype,$filename);
+                    $postDokData['rekom_madin'] = $file;
+                }
+            }else{
+                if(isset($_FILES['bukti_prestasi'])){
+                    $fileTmpName  = $_FILES['bukti_prestasi']['tmp_name'];
+                    $filetype  = $_FILES['bukti_prestasi']['type'];
+                    $filename  = $_FILES['bukti_prestasi']['name'];
+                    $file = new CURLFile($fileTmpName,$filetype,$filename);
+                    $postDokData['bukti_prestasi'] = $file;
+                }
+            }
         }
 
         $headers = array(
@@ -201,6 +268,7 @@ class PendaftaranController extends Controller
                 'user_id' => $request->user_id,
                 'periode_id' => $request->periode_id,
                 'prodi_id' => $request->prodi_id,
+                'jalur_id' => $request->jalur_id,
                 'nama' => strtoupper($request->nama),
                 'jenis_kelamin' => $request->jenis_kelamin,
                 'tempat_lahir' => strtoupper($request->tempat_lahir), 
@@ -228,6 +296,11 @@ class PendaftaranController extends Controller
                 'nominal_bayar' => $request->nominal_pendaftaran,
                 'bukti_bayar' => $response->data->pembayaran,
                 'tgl_bayar' => $request->tgl_bayar,
+                'pasfoto' => $response->data->pasfoto,
+                'kk' => $response->data->kk,
+                'kartu_nisn' => $response->data->kartu_nisn,
+                'bukti_prestasi' => $response->data->bukti_prestasi ?? null,
+                'rekom_madin' => $response->data->rekom_madin ?? null
             ]);
 
             Ortu::create(
@@ -325,23 +398,76 @@ class PendaftaranController extends Controller
         }
     }
 
-    public function show(Pendaftaran $pendaftaran)
+    private function _formJalur($jalur)
     {
-        //
+        switch ($jalur) {
+            case '1':
+                return view('pendaftaran.jalur.umum');
+            case '2':
+                return view('pendaftaran.jalur.akademik');
+            case '3':
+                return view('pendaftaran.jalur.nonakademik');
+            case '4':
+                return view('pendaftaran.jalur.tahfidz');
+            case '5':
+                return view('pendaftaran.jalur.madin');
+            case '6':
+                return view('pendaftaran.jalur.umum');
+            default:
+                return view('pendaftaran.jalur.umum');
+        }
     }
 
-    public function edit(Pendaftaran $pendaftaran)
+    private function _specialValidation($jalur)
     {
-        //
+        $addValidationRule = [];
+        $addValidationRuleMsg = [];
+
+        if(in_array($jalur, [2,3,4,5])){
+            if($jalur == 5){
+                $addValidationRule = ['rekom_madin' => 'required|mimes:pdf,jpg,jpeg,png|max:2048'];
+                $addValidationRuleMsg = [
+                    'rekom_madin.required' => 'Surat Rekomendasi Madin tidak boleh kosong!',
+                    'rekom_madin.mimes' => 'Surat Rekomendasi Madin harus berformat PDF!',
+                    'rekom_madin.max' => 'Surat Rekomendasi Madin maksimal berukuran 2MB!',
+                ];
+            }else{
+                $addValidationRule = ['bukti_prestasi' => 'required|mimes:pdf,jpg,jpeg,png|max:2048'];
+                $addValidationRuleMsg = [
+                    'bukti_prestasi.required' => 'Bukti Prestasi tidak boleh kosong!',
+                    'bukti_prestasi.mimes' => 'Bukti Prestasi harus berformat PDF!',
+                    'bukti_prestasi.max' => 'Bukti Prestasi maksimal berukuran 2MB!',
+                ];
+            }
+    
+            $validationRule = [
+                'pasfoto' => 'required|mimes:jpg,jpeg,png|max:2048',
+                'kk' => 'required|mimes:jpg,jpeg,png|max:2048',
+                'kartu_nisn' => 'required|mimes:jpg,jpeg,png|max:2048',
+            ];
+            $validationRule = array_merge($validationRule, $addValidationRule);
+    
+            $validationRuleMsg = [
+                'pasfoto.required' => 'Pas Foto tidak boleh kosong!',
+                'pasfoto.mimes' => 'Pas Foto harus berformat JPG/JPEG/PNG!',
+                'pasfoto.max' => 'Pas Foto maksimal berukuran 2MB!',
+                'kk.required' => 'Kartu Keluarga tidak boleh kosong!',
+                'kk.mimes' => 'Kartu Keluarga harus berformat JPG/JPEG/PNG!',
+                'kk.max' => 'Kartu Keluarga maksimal berukuran 2MB!',
+                'kartu_nisn.required' => 'Kartu NISN tidak boleh kosong!',
+                'kartu_nisn.mimes' => 'Kartu NISN harus berformat JPG/JPEG/PNG!',
+                'kartu_nisn.max' => 'Kartu NISN maksimal berukuran 2MB!',
+            ];
+            $addValidationRuleMsg = array_merge($validationRuleMsg, $addValidationRuleMsg);
+        }else{
+            $validationRule = [];
+            $addValidationRuleMsg = [];
+        }
+
+        $data['validationRule'] = $validationRule;
+        $data['validationRuleMsg'] = $addValidationRuleMsg;
+    
+        return $data;
     }
 
-    public function update(Request $request, Pendaftaran $pendaftaran)
-    {
-        //
-    }
-
-    public function destroy(Pendaftaran $pendaftaran)
-    {
-        //
-    }
 }

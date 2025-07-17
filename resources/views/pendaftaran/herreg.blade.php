@@ -47,9 +47,21 @@
                         <td style="text-align: left;"><strong>Biaya Uang Gedung</strong></td>
                         <td style="text-align: left;">{{ 'Rp ' . number_format($config->biaya_uanggedung, 0, ',', '.') }}</td>
                     </tr>
+                    @if ($pengumuman->jalur_id != 1)
+                        <tr>
+                            <td style="text-align: left;"><strong>Nominal Beasiswa</strong></td>
+                            <td style="text-align: left;">{{ 'Rp ' . number_format($pengumuman->nominal_potongan, 0, ',', '.') }} ( {{ $pengumuman->besar_potongan.'%' }} )</td>
+                        </tr>
+                    @endif
                     <tr>
                         <td style="text-align: left;"><strong>Total Biaya</strong></td>
-                        <td style="text-align: left;">{{ 'Rp ' . number_format(($config->biaya_herregistrasi+$config->biaya_uanggedung), 0, ',', '.') }}</td>
+                        <td style="text-align: left;">
+                            @if ($pengumuman->jalur_id != 1)
+                                {{ 'Rp ' . number_format(($config->biaya_herregistrasi+$config->biaya_uanggedung-$pengumuman->nominal_potongan), 0, ',', '.') }}
+                            @else
+                                {{ 'Rp ' . number_format(($config->biaya_herregistrasi+$config->biaya_uanggedung), 0, ',', '.') }}
+                            @endif
+                        </td>
                     </tr>
                     <tr>
                         <td style="text-align: left;"><strong>Batas Waktu Pendaftaran</strong></td>
@@ -79,7 +91,13 @@
                 </div>
                 <input type="hidden" name="nominal_bayar" id="nominal_bayar" value="{{ ($config->biaya_herregistrasi+$config->biaya_uanggedung) }}">
                 <input type="hidden" name="nominal_herregistrasi" id="nominal_herregistrasi" value="{{ $config->biaya_herregistrasi }}">
-                <input type="hidden" name="nominal_uanggedung" id="nominal_uanggedung" value="{{ $config->biaya_uanggedung }}">
+                @if ($pengumuman->jalur_id != 1)
+                    @php $uanggedung = $config->biaya_uanggedung - $pengumuman->nominal_potongan; @endphp
+                    <input type="hidden" name="nominal_beasiswa" id="nominal_beasiswa" value="{{ $pengumuman->nominal_potongan }}">
+                @else
+                    @php $uanggedung = $config->biaya_uanggedung @endphp
+                @endif
+                <input type="hidden" name="nominal_uanggedung" id="nominal_uanggedung" value="{{ $uanggedung }}">
                 <div class="col-md-4">
                     <label for="tgl_bayar">Tanggal Pembayaran</label>
                 </div>

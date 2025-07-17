@@ -110,6 +110,7 @@ class HerregistrasiController extends Controller
                 'nominal_uanggedung' => $request->nominal_uanggedung,
                 'terbayar_uanggedung' => $request->terbayar_uanggedung,
                 'sisabayar_uanggedung' => $sisabayaruanggedung,
+                'nominal_beasiswa' => $request->nominal_beasiswa,
                 'bukti_bayar' => $response->data->herregistrasi,
                 'tgl_bayar' => $request->tgl_bayar,
                 'semester' => $request->semester,

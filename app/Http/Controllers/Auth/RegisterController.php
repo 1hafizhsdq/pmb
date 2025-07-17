@@ -44,7 +44,13 @@ class RegisterController extends Controller
 
     public function showRegistrationForm()
     {
-        $data['periode'] = Periode::with('pmb')->where('is_active',1)->first();
+        // $data['periode'] = Periode::with('pmb')->where('is_active',1)->first();
+        $data['periode'] = Periode::with('pmb')
+                            ->whereHas('pmb', function ($query) {
+                                $query->whereDate('tgl_awal_pmb', '<=', Carbon::today())
+                                    ->whereDate('tgl_akhir_pmb', '>=', Carbon::today());
+                            })
+                            ->first();
         $tanggal_saat_ini = Carbon::now();
         $data['form_dibuka'] = false;
         $data['tgl_melewati_semua_pmb'] = true;

@@ -344,7 +344,7 @@
                                                         <label for="file">File Ijazah</label>
                                                     </div>
                                                     <div class="col-md-8 form-group">
-                                                        <input type="file" class="basic-filepond @error('file') is-invalid @enderror" id="file" name="file">
+                                                        <input type="file" class="form-control @error('file') is-invalid @enderror" id="file" name="file">
                                                         <small>File bertipe PDF, maksimal berukuran 2MB</small>
                                                     </div>
                                                     <div class="col-md-4">
@@ -355,6 +355,13 @@
                                                     </div>
                                                 </div>
                                                 {{-- End section Dokumen --}}
+
+                                                {{-- Start dokumen jalur  --}}
+                                                <div class="dokumen-jalur">
+                                                    <input type="hidden" name="jalur_id" id="jalur_id" value="{{ $jalur_id }}">
+                                                    {!! $forms !!}
+                                                </div>
+                                                {{-- End dokumen jalur  --}}
             
                                                 {{-- Start section Jurusan --}}
                                                 <h4 class="card-title">Program Studi</h4>
@@ -394,7 +401,7 @@
                                                         <label for="file_pembayaran">Bukti Pembayaran</label>
                                                     </div>
                                                     <div class="col-md-8 form-group">
-                                                        <input type="file" class="image-preview-filepond @error('file_pembayaran') is-invalid @enderror" id="file_pembayaran" name="file_pembayaran">
+                                                        <input type="file" class="form-control @error('file_pembayaran') is-invalid @enderror" id="file_pembayaran" name="file_pembayaran">
                                                         <small>File bertipe jpg/jpeg/png, maksimal berukuran 2MB</small>
                                                     </div>
                                                     <input type="hidden" name="nominal_pendaftaran" id="nominal_pendaftaran" value="{{ $config->biaya_pendaftaran }}">
@@ -432,9 +439,106 @@
 @push('script')
     <script>
         $(document).ready(function () {
+            // FilePond.registerPlugin(
+            //     FilePondPluginFileValidateType,
+            //     FilePondPluginFileValidateSize,
+            //     FilePondPluginImagePreview
+            // );
+
+            // const ijazahPond = FilePond.create(document.querySelector('input[name="file"]'), {
+            //     acceptedFileTypes: ['application/pdf'],
+            //     maxFileSize: '2MB',
+            //     labelIdle: 'Seret & lepas file Ijazah Anda atau <span class="filepond--label-action">Cari</span>',
+            //     labelFileTypeNotAllowed: 'File harus berupa PDF',
+            //     fileValidateTypeDetectType: (source, type) => new Promise((resolve, reject) => {
+            //         resolve(type);
+            //     })
+            // });
+
+            // const pasFotoPond = FilePond.create(document.querySelector('input[name="pasfoto"]'), {
+            //     acceptedFileTypes: ['image/jpeg', 'image/png', 'image/jpg'],
+            //     maxFileSize: '2MB',
+            //     labelIdle: 'Seret & lepas Pas Foto Anda atau <span class="filepond--label-action">Cari</span>',
+            //     labelFileTypeNotAllowed: 'File harus berupa gambar (JPG/JPEG/PNG)',
+            //     imagePreviewHeight: 150,
+            //     stylePanelAspectRatio: 0.75
+            // });
+
+            // const kkPond = FilePond.create(document.querySelector('input[name="kk"]'), {
+            //     acceptedFileTypes: ['application/pdf', 'image/jpeg', 'image/png', 'image/jpg'],
+            //     maxFileSize: '2MB',
+            //     labelIdle: 'Seret & lepas file KK Anda atau <span class="filepond--label-action">Cari</span>',
+            //     labelFileTypeNotAllowed: 'File harus berupa PDF atau gambar (JPG/JPEG/PNG)'
+            // });
+
+            // const nisnPond = FilePond.create(document.querySelector('input[name="nisn"]'), {
+            //     acceptedFileTypes: ['application/pdf', 'image/jpeg', 'image/png', 'image/jpg'],
+            //     maxFileSize: '2MB',
+            //     labelIdle: 'Seret & lepas file NISN Anda atau <span class="filepond--label-action">Cari</span>',
+            //     labelFileTypeNotAllowed: 'File harus berupa PDF atau gambar (JPG/JPEG/PNG)'
+            // });
+
+            // const bayarPond = FilePond.create(document.querySelector('input[name="file_pembayaran"]'), {
+            //     acceptedFileTypes: ['image/jpeg', 'image/png', 'image/jpg'],
+            //     maxFileSize: '2MB',
+            //     labelIdle: 'Seret & lepas Bukti Pembayaran atau <span class="filepond--label-action">Cari</span>',
+            //     labelFileTypeNotAllowed: 'File harus berupa gambar (JPG/JPEG/PNG)',
+            //     imagePreviewHeight: 150,
+            //     stylePanelAspectRatio: 0.75
+            // });
+
             $('#save').click(function(){
                 $('.spinner').css('display','block');
                 $('#save').css('display','none');
+
+                var form = $('#form')[0],
+                formData = new FormData(form);
+                // if (ijazahPond.getFile()) {
+                //     formData.append('file', ijazahPond.getFile().file);
+                // }
+                // if (pasFotoPond.getFile()) {
+                //     formData.append('pasfoto', pasFotoPond.getFile().file);
+                // }
+                // if (kkPond.getFile()) {
+                //     formData.append('kk', kkPond.getFile().file);
+                // }
+                // if (nisnPond.getFile()) {
+                //     formData.append('nisn', nisnPond.getFile().file);
+                // }
+                // if (bayarPond.getFile()) {
+                //     formData.append('file_pembayaran', bayarPond.getFile().file);
+                // }
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    url: "{{route('pendaftaran.store')}}",
+                    method: "POST",
+                    processData: false,
+                    contentType: false,
+                    data: formData,
+                    beforeSend: function() {
+                        $('#save').css('display','none');
+                        $('#loading').css('display','block');
+                    },
+                    success: function(result) {
+                        if (result.success) {
+                            successMsg(result.success)
+                            $('#save').css('display','block');
+                            $('#loading').css('display','none');
+                            setInterval(function () {
+                                window.location.reload();
+                            }, 1000);
+                        }else{
+                            errorMsg(result.errors)
+                            $('#save').css('display','block');
+                            $('#loading').css('display','none');
+                        }
+                    },
+                });
             });
         }).on('change','#provinsi_id',function(){
             var id = $(this).val();
@@ -524,41 +628,6 @@
                     $('input[name="_token"]').val(newToken);
                 }
             });
-        }).on('click','#save',function(){
-            var form = $('#form')[0],
-            data = new FormData(form);
-            // data.push( { 'name': '_token', 'value': '{{ csrf_token() }}' } );
-
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $.ajax({
-                url: "{{route('pendaftaran.store')}}",
-                method: "POST",
-                processData: false,
-                contentType: false,
-                data: data,
-                beforeSend: function() {
-                    $('#save').css('display','none');
-                    $('#loading').css('display','block');
-                },
-                success: function(result) {
-                    if (result.success) {
-                        successMsg(result.success)
-                        $('#save').css('display','block');
-                        $('#loading').css('display','none');
-                        setInterval(function () {
-                            window.location.reload();
-                        }, 1000);
-                    }else{
-                        errorMsg(result.errors)
-                        $('#save').css('display','block');
-                        $('#loading').css('display','none');
-                    }
-                },
-            });
         });
 
         function preventDot(e) {
@@ -573,6 +642,13 @@
                 e.preventDefault();
             }
         }
+
+        const inputElements = document.querySelectorAll('input.basic-filepond');
+        // loop over input elements
+        Array.from(inputElements).forEach(inputElement => {
+            // create a FilePond instance at the input element location
+            FilePond.create(inputElement);
+        })
     </script>
 @endpush
 
