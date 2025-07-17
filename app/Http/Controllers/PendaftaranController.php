@@ -37,8 +37,8 @@ class PendaftaranController extends Controller
 
     public function __construct()
     {
-        $this->_url = 'https://siakad.stainupa.ac.id';
-        // $this->_url = 'http://siakad.test';
+        // $this->_url = 'https://siakad.stainupa.ac.id';
+        $this->_url = 'http://siakad.test';
     }
 
     public function index(){
@@ -59,7 +59,7 @@ class PendaftaranController extends Controller
 
     public function form(Request $request){
         $data['title'] = 'Pendaftaran Mahasiswa Baru';
-        $data['periode'] = Periode::with('pmb')
+        $data['periodes'] = Periode::with('pmb')
                             ->whereHas('pmb', function ($query) {
                                 $query->whereDate('tgl_awal_pmb', '<=', Carbon::today())
                                     ->whereDate('tgl_akhir_pmb', '>=', Carbon::today());
@@ -108,9 +108,10 @@ class PendaftaranController extends Controller
     public function pengumuman(){
         $data['title'] = 'Pengumuman Mahasiswa Baru';
         $data['pengumuman'] = Pendaftaran::with('periode','prodi','user')
-            ->whereHas('periode', function($q){
-                $q->where('is_active',1);
-            })
+            // ->whereHas('periode', function($q){
+            //     $q->whereDate('tgl_awal_pmb', '<=', Carbon::today())
+            //     ->whereDate('tgl_akhir_pmb', '>=', Carbon::today());
+            // })
             ->where('user_id', Auth::user()->id)
             ->first();
         $data['herregistrasi'] = Herregistrasi::where('user_id', Auth::user()->id)
@@ -442,7 +443,7 @@ class PendaftaranController extends Controller
             $validationRule = [
                 'pasfoto' => 'required|mimes:jpg,jpeg,png|max:2048',
                 'kk' => 'required|mimes:jpg,jpeg,png|max:2048',
-                'nisn' => 'required|mimes:jpg,jpeg,png|max:2048',
+                'kartu_nisn' => 'required|mimes:jpg,jpeg,png|max:2048',
             ];
             $validationRule = array_merge($validationRule, $addValidationRule);
     
@@ -453,9 +454,9 @@ class PendaftaranController extends Controller
                 'kk.required' => 'Kartu Keluarga tidak boleh kosong!',
                 'kk.mimes' => 'Kartu Keluarga harus berformat JPG/JPEG/PNG!',
                 'kk.max' => 'Kartu Keluarga maksimal berukuran 2MB!',
-                'nisn.required' => 'Kartu NISN tidak boleh kosong!',
-                'nisn.mimes' => 'Kartu NISN harus berformat JPG/JPEG/PNG!',
-                'nisn.max' => 'Kartu NISN maksimal berukuran 2MB!',
+                'kartu_nisn.required' => 'Kartu NISN tidak boleh kosong!',
+                'kartu_nisn.mimes' => 'Kartu NISN harus berformat JPG/JPEG/PNG!',
+                'kartu_nisn.max' => 'Kartu NISN maksimal berukuran 2MB!',
             ];
             $addValidationRuleMsg = array_merge($validationRuleMsg, $addValidationRuleMsg);
         }else{

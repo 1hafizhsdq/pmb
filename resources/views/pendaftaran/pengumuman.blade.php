@@ -137,6 +137,18 @@
                                                                                         {{ 'Rp ' . number_format($config->biaya_uanggedung, 0, ',', '.') }}
                                                                                     </td>
                                                                                 </tr>
+                                                                                @if ($pengumuman->jalur_id != 1)
+                                                                                    <tr>
+                                                                                        <td></td>
+                                                                                        <td
+                                                                                            style="text-align: left;">
+                                                                                            <strong>Beasiswa</strong></td>
+                                                                                        <td
+                                                                                            style="text-align: left;">
+                                                                                            {{ 'Rp ' . number_format($pengumuman->nominal_potongan, 0, ',', '.') }} ( {{ $pengumuman->besar_potongan.'%' }} )
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                @endif
                                                                                 <tr>
                                                                                     <td></td>
                                                                                     <td
@@ -144,7 +156,11 @@
                                                                                         <strong>Total Nominal Bayar</strong></td>
                                                                                     <td
                                                                                         style="text-align: left;">
-                                                                                        {{ 'Rp ' . number_format(($config->biaya_herregistrasi+$config->biaya_uanggedung), 0, ',', '.') }}
+                                                                                        @if ($pengumuman->jalur_id != 1)
+                                                                                            {{ 'Rp ' . number_format(($config->biaya_herregistrasi+$config->biaya_uanggedung-$pengumuman->nominal_potongan), 0, ',', '.') }}
+                                                                                        @else
+                                                                                            {{ 'Rp ' . number_format(($config->biaya_herregistrasi+$config->biaya_uanggedung), 0, ',', '.') }}
+                                                                                        @endif
                                                                                     </td>
                                                                                 </tr>
                                                                                 <tr>
