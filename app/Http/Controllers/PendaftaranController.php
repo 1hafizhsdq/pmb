@@ -37,8 +37,8 @@ class PendaftaranController extends Controller
 
     public function __construct()
     {
-        // $this->_url = 'https://siakad.stainupa.ac.id';
-        $this->_url = 'http://siakad.test';
+        $this->_url = 'https://siakad.stainupa.ac.id';
+        // $this->_url = 'http://siakad.test';
     }
 
     public function index(){
