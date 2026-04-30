@@ -46,6 +46,7 @@ class RegisterController extends Controller
     {
         // $data['periode'] = Periode::with('pmb')->where('is_active',1)->first();
         $data['periode'] = Periode::with('pmb')
+                            ->where('is_active', 1)
                             ->whereHas('pmb', function ($query) {
                                 $query->whereDate('tgl_awal_pmb', '<=', Carbon::today())
                                     ->whereDate('tgl_akhir_pmb', '>=', Carbon::today());
