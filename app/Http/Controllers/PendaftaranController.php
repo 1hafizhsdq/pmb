@@ -442,8 +442,8 @@ class PendaftaranController extends Controller
     
             $validationRule = [
                 'pasfoto' => 'required|mimes:jpg,jpeg,png|max:2048',
-                'kk' => 'required|mimes:jpg,jpeg,png|max:2048',
-                'kartu_nisn' => 'required|mimes:jpg,jpeg,png|max:2048',
+                'kk' => 'required|mimes:jpg,jpeg,png,pdf|max:2048',
+                'kartu_nisn' => 'required|mimes:jpg,jpeg,png,pdf|max:2048',
             ];
             $validationRule = array_merge($validationRule, $addValidationRule);
     
