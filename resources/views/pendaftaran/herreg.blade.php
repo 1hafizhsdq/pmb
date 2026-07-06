@@ -224,7 +224,7 @@
             </div>
             <div class="col-md-8 form-group">
                 <select class="form-select select2 @error('kecamatan_id') is-invalid @enderror" id="kecamatan_id" name="kecamatan_id">
-                    <option value="{{ $pengumuman->kecamatan_id }}">{{ $pengumuman->kecamatan->nama_kecamatan }}</option>
+                    <option value="{{ $pengumuman->kecamatan_id }}">{{ $pengumuman->kecamatan->nama_kecamatan ?? '' }}</option>
                 </select>
             </div>
             <div class="col-md-4">
@@ -232,7 +232,7 @@
             </div>
             <div class="col-md-8 form-group">
                 <select class="form-select select2 @error('kelurahan_id') is-invalid @enderror" id="kelurahan_id" name="kelurahan_id">
-                    <option value="{{ $pengumuman->kelurahan_id }}">{{ $pengumuman->kelurahan->nama_kelurahan }}</option>
+                    <option value="{{ $pengumuman->kelurahan_id }}">{{ $pengumuman->kelurahan->nama_kelurahan ?? '' }}</option>
                 </select>
             </div>
             <div class="col-md-4">
@@ -240,19 +240,19 @@
             </div>
             <div class="col-md-2 form-group">
                 <input type="text" id="kode_pos" class="form-control @error('kode_pos') is-invalid @enderror" name="kode_pos"
-                    value="{{ $pengumuman->kode_pos }}" readonly>
+                    value="{{ $pengumuman->kode_pos ?? '' }}" readonly>
             </div>
             <div class="col-md-2 form-group">
                 <input type="text" id="dusun" class="form-control @error('dusun') is-invalid @enderror" name="dusun"
-                    value="{{ $pengumuman->dusun }}" readonly>
+                    value="{{ $pengumuman->dusun ?? '' }}" readonly>
             </div>
             <div class="col-md-2 form-group">
                 <input type="text" id="rt" class="form-control @error('rt') is-invalid @enderror" name="rt"
-                    value="{{ $pengumuman->rt }}" readonly>
+                    value="{{ $pengumuman->rt ?? '' }}" readonly>
             </div>
             <div class="col-md-2 form-group">
                 <input type="text" id="rw" class="form-control @error('rw') is-invalid @enderror" name="rw"
-                    value="{{ $pengumuman->rw }}" readonly>
+                    value="{{ $pengumuman->rw ?? '' }}" readonly>
             </div>
             <div class="col-md-4">
                 <label for="jenistinggal_id">Jenis Tinggal</label>
