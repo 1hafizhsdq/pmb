@@ -80,7 +80,8 @@ class RegisterController extends Controller
                 }
             }
         } else {
-            $data['status_message'] = 'PMB periode '.$data['periode']->nama_periode.' '.$data['periode']->semester.' Belum tersedia.';
+          //  $data['status_message'] = 'PMB periode '.$data['periode']->nama_periode.' '.$data['periode']->semester.' Belum tersedia.';
+          $data['status_message'] = 'PMB Belum dibuka.';
         }
 
         return view('auth.register',$data);
